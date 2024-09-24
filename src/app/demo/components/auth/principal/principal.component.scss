@@ -1,0 +1,298 @@
+/* Estilos generales */
+
+/* Navegación y Encabezado */
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Centrar los elementos verticalmente */
+    padding: 10px 20px;
+    background-color: #050505; /* Encabezado */
+}
+
+nav .logo img {
+    width: 120px; /* Tamaño de logo ajustado */
+}
+
+nav .nav-right a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: #d11616; /* Rojo oscuro para los botones */
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+nav .nav-right a:hover {
+    background-color: #ff0000; /* Cambio de color al pasar el ratón */
+    transform: scale(1.1); /* Efecto de agrandamiento en hover */
+}
+
+/* Sección Hero con imagen de fondo */
+.hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #8C001A;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Capa oscura */
+    z-index: -1;
+}
+
+.hero-content {
+    color: white;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeInUpOnce 1.5s ease-out forwards;
+    font-size: 130%;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+/* Animación Hero */
+@keyframes fadeInUpOnce {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-content h1 {
+    font-size: 9rem;
+    font-family: 'Times New Roman', serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 0;
+    display: inline-block;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.hero-content p {
+    font-size: 3rem;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    margin-top: 20px;
+    color: #ffe600;
+    text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+    opacity: 0;
+    animation: fadeInUpOnce 2s ease-out forwards;
+    animation-delay: 1s;
+}
+
+/* Sección Sobre Nosotros */
+.sobre-nosotros {
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+    background-color: transparent;
+}
+
+.imagen-nosotros img {
+    width: 350px; /* Ajuste del tamaño de la imagen */
+    border-radius: 10px;
+}
+
+.texto-nosotros {
+    max-width: 500px;
+    padding: 0 20px;
+    color: white;
+}
+
+/* Sección Cortes */
+.cortes {
+    text-align: center;
+    padding: 50px;
+    background-color: #7d1515;
+}
+
+.cortes h2 {
+    font-size: 3rem;
+    color: white;
+    font-family: 'Times New Roman', serif;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.cortes-contenedor {
+    display: flex;
+    justify-content: center;
+    gap: 220px; /* Espacio entre las imagenes */
+    flex-wrap: wrap;
+}
+
+.corte img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.corte img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.corte p {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: #f5f5f5;
+}
+
+/* Sección de contacto */
+footer {
+    background-color: #000000;
+    padding: 50px;
+}
+
+.contacto {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.redes a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 2rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.redes a:hover {
+    color: #ffe600;
+    transform: scale(1.1);
+}
+
+footer p {
+    margin: 5px 0;
+    color: white;
+}
+
+.fondo{
+    background-color: #8C001A;
+    // background-image:  radial-gradient(#3683fe 0.8px, transparent 0.8px), radial-gradient(#3683fe 0.8px, #ffffff 0.8px);
+    background-size: 32px 32px;
+    background-position: 0 0,16px 16px;
+    height: auto !important;
+    min-height: 100vh ;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
+  input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+  }
+
+  .background-transparent {
+    background-color: transparent !important;
+    /* Puedes ajustar el padding o cualquier otro estilo adicional si lo necesitas */
+  }
+
+  ::ng-deep .custom-rounded-button .p-button {
+    background-color:transparent; /* Color de fondo del botón */
+    border-radius: 50px; /* Bordes redondeados */
+    color: white; /* Texto de color blanco */
+    border: 2px solid white; /* Borde blanco si lo necesitas */
+  }
+  
+  ::ng-deep .custom-rounded-button .p-button-label {
+    color: white !important; /* Asegura que el texto se mantenga blanco */
+  }
+  
+  ::ng-deep .custom-rounded-button .pi {
+    color: white !important; /* Asegura que el ícono también sea blanco */
+  }
+
+
+  .image-container {
+    position: relative;
+    width: 100%;
+    // height: 40%;
+    // max-width: 600px; /* Ajusta el ancho máximo según sea necesario */
+    // margin: 0 auto;
+  }
+  
+  .image {
+    width: 100%;
+    height: auto; /* Asegura que la imagen sea responsive */
+  }
+
+  .hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-image: url('../../../../../assets/demo/images/principal/carnes.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Capa oscura */
+    z-index: -1;
+}
+
+.hero-content {
+    color: white;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeInUpOnce 1.5s ease-out forwards;
+    font-size: 130%;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+  .hero-content h1 {
+    font-size: 9rem;
+    font-family: 'Times New Roman', serif;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 0;
+    display: inline-block;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.hero-content p {
+    font-size: 3rem;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    margin-top: 20px;
+    color: #ffe600;
+    text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+    opacity: 0;
+    animation: fadeInUpOnce 2s ease-out forwards;
+    animation-delay: 1s;
+}
+
+  
