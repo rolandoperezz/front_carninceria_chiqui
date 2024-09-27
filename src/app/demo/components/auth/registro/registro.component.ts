@@ -5,13 +5,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
-  selector: 'app-principal',
-  standalone: true,
-  imports: [ButtonModule],
-  templateUrl: './principal.component.html',
-  styleUrl: './principal.component.scss'
+  selector: 'app-registro',
+  standalone: false,
+  templateUrl: './registro.component.html',
+  styleUrl: './registro.component.scss'
 })
-export class PrincipalComponent {
+export class RegistroComponent {
+  valCheck: string[] = ['remember'];
+
+  password!: string;
 
   constructor(
     // private ConsultaService : CatalogosService,
@@ -28,5 +30,4 @@ export class PrincipalComponent {
       this.Router.navigateByUrl('/auth/login');
 
     }
-
 }
