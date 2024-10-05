@@ -6,22 +6,34 @@
             </div>
         </div>
         <div class="column my-5 p-1">
-            <div class="flex align-items-center justify-content-center my-5 ">
-                <div class="flex flex-column  justify-content-center py-5   font-bold border-round m-2">
-                    <img src="../../../../../assets/demo/images/principal/fondo.png" alt="Filete Mignon">
+            <div class="flex align-items-center justify-content-center  ">
+                <div class="flex flex-column  justify-content-center   font-bold border-round m-2">
+                    <div class="flex align-items-center justify-content-center">
+                        <img  src="../../../../../assets/demo/images/principal/fondo.png" alt="Filete Mignon" style="width: 30%;">
+                    </div>
                     <span class="text-4xl text-center text-white">Registrarse</span>
-                    <label for="email1" class="block text-white text-xl font-medium mb-2">Correo</label>
-                    <input id="email1" type="text" placeholder="Correo Electronico" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
-                    <label for="name1" class="block text-white text-xl font-medium mb-2">Nombre</label>
-                    <input id="name1" type="text" placeholder="Nombre" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
-                    <label for="tel1" class="block text-white text-xl font-medium mb-2">Teléfono</label>
-                    <input id="tel1" type="text" placeholder="Télefono" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
-                    <label for="password1" class="block text-white font-medium text-xl mb-2">Contraseña</label>
-                    <p-password id="password1" [(ngModel)]="password" placeholder="Contraseña" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
-                    <label for="password1" class="block text-white font-medium text-xl mb-2">Confirmación Contraseña</label>
-                    <p-password id="password1" [(ngModel)]="password" placeholder="Contraseña" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                <form [formGroup]="formConsulta" (submit)="registro()">
+                        <label for="email1" class="block text-white text-xl font-medium mb-2">Correo</label>
+                    <input id="email1" formControlName="correo" type="text" placeholder="Correo Electronico" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
+
+                        <label for="name1" class="block text-white text-xl font-medium mb-2">Nombre</label>
+                    <input id="name1" formControlName="nombre" type="text" placeholder="Nombre" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
+
+                        <label for="dire1" class="block text-white text-xl font-medium mb-2">Dirección</label>
+                    <input id="dire1" formControlName="direccion" type="text" placeholder="direccion" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
+
+                        <label for="tel1"  class="block text-white text-xl font-medium mb-2">Teléfono</label>
+                    <input id="tel1" formControlName="telefono" type="text" placeholder="Télefono" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem" maxLength="8" oninput="validity.valid||(value=''); javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+
+                        <label for="password1"  class="block text-white font-medium text-xl mb-2">Contraseña</label>
+                    <p-password id="password1" formControlName="contraseña" [feedback]="false" placeholder="Contraseña" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+
+                    <label for="password2" class="block text-white font-medium text-xl mb-2">Confirmación Contraseña</label>
+                    <p-password id="password2" formControlName="confirmacionContraseña" (keyup)="confirmacion()" placeholder="Confirmar Contraseña" [toggleMask]="true" [feedback]="false" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                    <span class="text-white" *ngIf="validaPassword">Contraseñas no coinciden</span>
                     <br>
-                    <p-button  pRipple  label="Registrarse" class="flex justify-content-center p-3 text-xl border-round-4xl" severity="secondary" size="large" [rounded]="true"></p-button>
+                    <p-button  pRipple  label="Registrarse" type="submit" class="flex justify-content-center p-3 text-xl border-round-4xl" severity="secondary" size="large" [rounded]="true"></p-button>
+                </form>
                     <hr>
                     <p-button class="flex justify-content-center text-white" icon="pi pi-caret-left" size="large" label="Regresar" severity="secondary" [rounded]="true" [routerLink]="['/auth/login']"/>
                 </div>

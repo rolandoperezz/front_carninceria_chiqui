@@ -5,19 +5,26 @@
                 <img src="../../../../../assets/demo/images/principal/carniceria.jpeg" alt="Carnicería">
             </div>
         </div>
-        <div class="column my-5 p-1">
-            <div class="flex align-items-center justify-content-center my-5 ">
-                <div class="flex flex-column  justify-content-center py-5   font-bold border-round m-2">
-                    <img src="../../../../../assets/demo/images/principal/fondo.png" alt="Filete Mignon">
+
+        <div class="column my-2 p-1">
+            <div class="flex align-items-center justify-content-center  ">
+                <div class="flex flex-column   justify-content-center   font-bold border-round m-2">
+                    <div class="flex align-items-center justify-content-center">
+                        <img  src="../../../../../assets/demo/images/principal/fondo.png" alt="Filete Mignon" style="width: 30%;">
+                    </div>
                     <span class="text-4xl text-center text-white">Iniciar Sesión</span>
+                    <form [formGroup]="formConsulta" (submit)="login()">
+
                     <label for="email1" class="block text-white text-xl font-medium mb-2">Correo</label>
-                    <input id="email1" type="text" placeholder="Correo Electronico" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
+                    <input id="email1" formControlName="correo" type="text" placeholder="Correo Electronico" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
     
                     <label for="password1" class="block text-white font-medium text-xl mb-2">Contraseña</label>
-                    <p-password id="password1" [(ngModel)]="password" placeholder="Contraseña" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
-                    <p class="font-medium underline ml-2 text-center text-white cursor-pointer ">¿Has olvidado la contraseña?</p>
+                    <p-password id="password1" formControlName="contraseña" [feedback]="false" 	 [(ngModel)]="password" placeholder="Contraseña" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                    <!-- <p class="font-medium underline ml-2 text-center text-white cursor-pointer ">¿Has olvidado la contraseña?</p> -->
                     <br>
-                    <p-button  pRipple  label="Iniciar Sesion" class="flex justify-content-center p-3 text-xl border-round-4xl" severity="secondary" size="large" [rounded]="true" [routerLink]="['/']"></p-button>
+                    <p-button  pRipple  label="Iniciar Sesion" type="submit" class="flex justify-content-center p-3 text-xl border-round-4xl" severity="secondary" size="large" [rounded]="true"></p-button>
+                </form>
+
                     <p-button class="flex justify-content-center text-white" icon="pi pi-caret-left"  label="Regresar" severity="secondary" [rounded]="true" [routerLink]="['/auth/inicio']"/>
 
                     <hr>
@@ -26,6 +33,7 @@
                 </div>
             </div>
         </div>  
+
     </div>
     <br>
     <br>

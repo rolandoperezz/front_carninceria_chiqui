@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AppLayoutComponent } from 'src/app/layout/app.layout.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -9,7 +10,7 @@ import { RouterModule } from '@angular/router';
 
         { path: 'registro', loadChildren: () => import('./registro/registro.module').then(m => m.RegistroModule) },
         { path: 'inicio', loadChildren: () => import('./principal/principal.module').then(m => m.PrincipalModule) },
-        { path: '**', redirectTo: '/notfound' }
+        { path: '**', redirectTo: '/inicio' },
     ])],
     exports: [RouterModule]
 })

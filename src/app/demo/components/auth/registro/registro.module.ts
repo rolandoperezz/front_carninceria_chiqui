@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { CardModule } from 'primeng/card';
 import { RegistroComponent } from './registro.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { RegistroComponent } from './registro.component';
     PasswordModule,
     FormsModule,
     CheckboxModule,
-    CardModule
+    CardModule,
+    ReactiveFormsModule
   ],
   declarations: [RegistroComponent]
 
