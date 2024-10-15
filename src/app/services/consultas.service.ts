@@ -9,7 +9,20 @@ export class ConsultasService {
   urlback="https://localhost:7237/"
 
   constructor(private http: HttpClient) { }
+  
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('token');  // Comprueba si existe un token en el almacenamiento local
+  }
 
+  // Método para guardar el token en el inicio de sesión
+  setToken(token: string): void {
+    localStorage.setItem('token', token);  // Guarda el token en el almacenamiento local
+  }
+
+  // Método para cerrar sesión
+  logout(): void {
+    localStorage.removeItem('token');  // Elimina el token al cerrar sesión
+  }
 
   consUsuarios(){
     return this.http.get(`${this.urlback}Usuario/ListUsuarios`)

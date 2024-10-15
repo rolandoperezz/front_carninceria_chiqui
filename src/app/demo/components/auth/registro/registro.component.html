@@ -13,25 +13,41 @@
                     </div>
                     <span class="text-4xl text-center text-white">Registrarse</span>
                 <form [formGroup]="formConsulta" (submit)="registro()">
-                        <label for="email1" class="block text-white text-xl font-medium mb-2">Correo</label>
-                    <input id="email1" formControlName="correo" type="text" placeholder="Correo Electronico" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
-
-                        <label for="name1" class="block text-white text-xl font-medium mb-2">Nombre</label>
-                    <input id="name1" formControlName="nombre" type="text" placeholder="Nombre" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
-
-                        <label for="dire1" class="block text-white text-xl font-medium mb-2">Dirección</label>
-                    <input id="dire1" formControlName="direccion" type="text" placeholder="direccion" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
-
-                        <label for="tel1"  class="block text-white text-xl font-medium mb-2">Teléfono</label>
-                    <input id="tel1" formControlName="telefono" type="text" placeholder="Télefono" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem" maxLength="8" oninput="validity.valid||(value=''); javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-
-                        <label for="password1"  class="block text-white font-medium text-xl mb-2">Contraseña</label>
-                    <p-password id="password1" formControlName="contraseña" [feedback]="false" placeholder="Contraseña" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
-
-                    <label for="password2" class="block text-white font-medium text-xl mb-2">Confirmación Contraseña</label>
-                    <p-password id="password2" formControlName="confirmacionContraseña" (keyup)="confirmacion()" placeholder="Confirmar Contraseña" [toggleMask]="true" [feedback]="false" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
-                    <span class="text-white" *ngIf="validaPassword">Contraseñas no coinciden</span>
-                    <br>
+                    <div class="columns">
+                        <div class="column">
+                            <label for="email1" class="block text-white text-lg font-medium mb-2">Correo</label>
+                            <input id="email1" formControlName="correo" type="text" placeholder="Correo Electronico" pInputText class="w-full md:w-20rem mb-5" >
+        
+                        </div>
+                        <div class="column">
+                            <label for="name1" class="block text-white text-lg font-medium mb-2">Nombre</label>
+                            <input id="name1" formControlName="nombre" type="text" placeholder="Nombre" pInputText class="w-full md:w-20rem mb-5">
+        
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <label for="dire1" class="block text-white text-lg font-medium mb-2">Dirección</label>
+                            <input id="dire1" formControlName="direccion" type="text" placeholder="Direccion" pInputText class="w-full md:w-20rem mb-5" >
+        
+                        </div>
+                        <div class="column">
+                            <label for="tel1"  class="block text-white text-lg font-medium mb-2">Teléfono</label>
+                            <input id="tel1" formControlName="telefono" type="text" placeholder="Télefono" pInputText class="w-full md:w-20rem mb-5"  maxLength="8" oninput="validity.valid||(value=''); javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <label for="password1"  class="block text-white font-medium text-lg mb-2">Contraseña</label>
+                            <p-password id="password1" formControlName="contraseña" [feedback]="false" placeholder="Contraseña" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-20rem"></p-password>
+        
+                        </div>
+                        <div class="column">
+                            <label for="password2" class="block text-white font-medium text-lg mb-2">Confirmación Contraseña</label>
+                            <p-password id="password2" formControlName="confirmacionContraseña" (keyup)="confirmacion()" placeholder="Confirmar Contraseña" [toggleMask]="true" [feedback]="false" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-20rem"></p-password>
+                            <span class=" text-white font-medium text-sm mb-2" *ngIf="validaPassword">Contraseñas no coinciden</span>
+                        </div>
+                    </div>
                     <p-button  pRipple  label="Registrarse" type="submit" class="flex justify-content-center p-3 text-xl border-round-4xl" severity="secondary" size="large" [rounded]="true"></p-button>
                 </form>
                     <hr>

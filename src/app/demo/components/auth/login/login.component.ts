@@ -55,29 +55,32 @@ export class LoginComponent {
       }
 
       
-      login(){
-
+      login() {
         if (this.formConsulta.valid) {
-            console.log(this.formConsulta.value)
-
-            this.ConsultaService.InicioSesion(this.formConsulta.value).subscribe(info=>{
-
-                this.not_success('Bienvenido (a)')
-                this.Router.navigateByUrl('');
-
-            
-            },error=>{
-                if (error['status'] == 404) {
-
-                    this.not_warning(error['error'])
-                }
-            })
-
-        }else{
-            this.not_warning('Campos Requeridos')
-            // console.log('campos requeridos')
+          console.log(this.formConsulta.value);
+      
+          this.ConsultaService.InicioSesion(this.formConsulta.value).subscribe(
+            (info: any) => {
+              // Guardar el token de autenticación
+              this.ConsultaService.setToken(info);  // Asegúrate de que 'info.token' contenga el token de respuesta
+      
+              this.not_success('Bienvenido (a)');
+              this.Router.navigate(['/inicio']).then(() => {
+                window.history.pushState(null, '', '/inicio');
+                window.history.pushState(null, '', '/inicio');
+              });
+            },
+            (error) => {
+              if (error['status'] == 404) {
+                this.not_warning(error['error']);
+              }
+            }
+          );
+        } else {
+          this.not_warning('Campos Requeridos');
         }
       }
+      
 
     //   consulta(){
     //     this.ConsultaService.consUsuarios().subscribe(info=>{
