@@ -21,7 +21,8 @@ export class ConsultasService {
 
   // Método para cerrar sesión
   logout(): void {
-    localStorage.removeItem('token');  // Elimina el token al cerrar sesión
+    localStorage.removeItem('token');  // Elimina el token del almacenamiento local
+    console.log('Sesión cerrada y token eliminado.');
   }
 
   consUsuarios(){

@@ -61,12 +61,13 @@ export class LoginComponent {
       
           this.ConsultaService.InicioSesion(this.formConsulta.value).subscribe(
             (info: any) => {
+              console.log(info)
               // Guardar el token de autenticación
               this.ConsultaService.setToken(info);  // Asegúrate de que 'info.token' contenga el token de respuesta
       
               this.not_success('Bienvenido (a)');
-              this.Router.navigate(['/inicio']).then(() => {
-                window.history.pushState(null, '', '/inicio');
+              this.Router.navigateByUrl('inicio').then(() => {
+                // Limpiar el historial para que no pueda volver al login
                 window.history.pushState(null, '', '/inicio');
               });
             },

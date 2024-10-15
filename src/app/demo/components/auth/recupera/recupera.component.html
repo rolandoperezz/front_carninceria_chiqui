@@ -1,0 +1,75 @@
+<div class="fondo">
+    <div class="columns flex-wrap">
+        <div class="column p-1">
+            <div class="image-side">
+                <img src="../../../../../assets/demo/images/principal/carniceria.jpeg" alt="Carnicería">
+            </div>
+        </div>
+        <div class="column p-1">
+            <div class="flex align-items-center justify-content-center  ">
+                <div class="flex flex-column  justify-content-center   font-bold border-round m-2">
+                    <div class="flex align-items-center justify-content-center">
+                        <img  src="../../../../../assets/demo/images/principal/fondo.png" alt="Filete Mignon" style="width: 30%;">
+                    </div>
+                    <span class="text-4xl text-center text-white">Recuperación de Contraseña</span>
+                    <br>
+                <form *ngIf="validaCorreo == false" [formGroup]="formConsulta" (submit)="enviar()">
+                    <div class="columns">
+                        <div class="column">
+                            <label for="email1" class="block text-white text-lg text-center font-medium mb-2">Ingrese Correo Registrado</label>
+                            <input id="email1" formControlName="correo" type="text" placeholder="Correo Electronico" pInputText class="w-full md:w-full mb-5" >
+                        </div>
+                    </div>
+                    <p-button  pRipple  label="Enviar Codigo" type="submit" icon="pi pi-send" class="flex justify-content-center p-3 text-xl border-round-2xl" severity="secondary" size="large" [rounded]="true"></p-button>
+                    <hr>
+                    <p-button class="flex justify-content-center text-white border-round-2xl" icon="pi pi-caret-left" size="large" label="Regresar" severity="secondary" [rounded]="true" [routerLink]="['/auth/login']"/>
+                </form>
+
+
+                <form *ngIf="validaCorreo == true" [formGroup]="formConsulta1" (submit)="codigo()">
+                    
+                        <div class="flex flex-column align-items-center">
+                            <!-- <div class="font-bold text-xl mb-2">Authenticate Your Account</div> -->
+                            <p class="text-white block mb-5">Ingresa el codigo enviado a tu correo.</p>
+                            
+                            <input  formControlName="codigo" type="text" placeholder="Codigo" pInputText class="w-full md:w-full mb-5" >
+                            <div class="flex justify-content-center mt-5 align-self-stretch">
+                                <!-- <p-button class="flex justify-content-center text-white" label="Reenviar Codigo" [rounded]="true"  size="large" icon="pi pi-send" /> -->
+                                <p-button class="flex justify-content-center text-white" type="submit" severity="secondary" size="large" [rounded]="true"  icon="pi pi-check-circle" label="Confirmar"/>
+                            </div>
+                        </div>
+                    <!-- <p-button  pRipple  label="" type="submit" class="flex justify-content-center p-3 text-xl border-round-4xl" severity="secondary" size="large" [rounded]="true"></p-button> -->
+                    <hr>
+                    <p-button class="flex justify-content-center text-white" icon="pi pi-caret-left" size="large" label="Regresar" severity="secondary" [rounded]="true" (click)="regresar()"/>
+                </form>
+
+
+
+                <form *ngIf="validaCodigo == true" [formGroup]="formConsulta2" (submit)="cambio()">
+                        <div class="columns">
+                            <div class="column">
+                                <label for="password1"  class="block text-white font-medium text-lg mb-2"> Nueva Contraseña</label>
+                                <p-password id="password1" formControlName="contraseña" [feedback]="false" placeholder="Contraseña" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-20rem"></p-password>
+                            </div>
+                            <div class="column">
+                                <label for="password2" class="block text-white font-medium text-lg mb-2">Confirmación Contraseña</label>
+                                <p-password id="password2" formControlName="confirmacionContraseña" (keyup)="confirmacion()" placeholder="Confirmar Contraseña" [toggleMask]="true" [feedback]="false" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-20rem"></p-password>
+                                <br>
+                                <span class=" text-white font-medium text-sm mb-2" *ngIf="validaPassword">Contraseñas no coinciden</span>
+                            </div>
+                        </div>
+                        <p-button  pRipple  label="Cambiar Contraseña" type="submit" class="flex justify-content-center p-3 text-xl border-round-4xl" severity="secondary" size="large" [rounded]="true"></p-button>
+                        <hr>
+                        <p-button class="flex justify-content-center text-white" icon="pi pi-caret-left" size="large" label="Regresar" severity="secondary" [rounded]="true" (click)="regresar1()"/>
+                </form>
+                  
+                </div>
+            </div>
+        </div> 
+      
+       
+    </div>
+</div>
+
+
+

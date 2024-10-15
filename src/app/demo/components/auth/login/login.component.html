@@ -10,7 +10,7 @@
             <div class="flex align-items-center justify-content-center  ">
                 <div class="flex flex-column   justify-content-center   font-bold border-round m-2">
                     <div class="flex align-items-center justify-content-center">
-                        <img  src="../../../../../assets/demo/images/principal/fondo.png" alt="Filete Mignon" style="width: 30%;">
+                        <img  src="../../../../../assets/demo/images/principal/fondo.png" alt="" style="width: 30%;">
                     </div>
                     <span class="text-4xl text-center text-white">Iniciar Sesión</span>
                     <form [formGroup]="formConsulta" (submit)="login()">
@@ -20,16 +20,16 @@
     
                     <label for="password1" class="block text-white font-medium text-xl mb-2">Contraseña</label>
                     <p-password id="password1" formControlName="contraseña" [feedback]="false" 	 [(ngModel)]="password" placeholder="Contraseña" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
-                    <p class="font-medium underline ml-2 text-center text-white cursor-pointer ">¿Has olvidado la contraseña?</p>
+                    <p class="font-medium underline ml-2 text-center text-white cursor-pointer" [routerLink]="['/auth/recupera']">¿Has olvidado la contraseña?</p>
                     <br>
-                    <p-button  pRipple  label="Iniciar Sesion" type="submit" class="flex justify-content-center p-3 text-xl border-round-4xl" severity="secondary" size="large" [rounded]="true"></p-button>
+                    <p-button  pRipple  label="Iniciar Sesion" icon="pi pi-sign-in" type="submit" class="flex justify-content-center p-3 text-sm border-round-2xl" severity="secondary" size="large" [rounded]="true"></p-button>
                 </form>
 
-                    <p-button class="flex justify-content-center text-white" icon="pi pi-caret-left"  label="Regresar" severity="secondary" [rounded]="true" [routerLink]="['/auth/inicio']"/>
+                    <p-button class="flex justify-content-center text-white text-sm" icon="pi pi-caret-left"  label="Regresar" severity="secondary" [rounded]="true"  size="large" [routerLink]="['/auth/inicio']"/>
 
                     <hr>
                     <span class="text-xl text-center text-white">No tienes una cuenta? </span>
-                    <p-button class="flex justify-content-center"  label="Registrarse ahora" [rounded]="true" [routerLink]="['/auth/registro']" severity="secondary" />
+                    <p-button class="flex justify-content-center text-white text-sm" icon="pi pi-file"  label="Registrarse ahora" [rounded]="true" [routerLink]="['/auth/registro']"  size="large" severity="secondary" />
                 </div>
             </div>
         </div>  
