@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validator,FormBuilder,Validators } from '@angul
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { ConsultasService } from 'src/app/services/consultas.service';
 
 @Component({
   selector: 'app-principal',
@@ -14,7 +15,7 @@ import { ButtonModule } from 'primeng/button';
 export class PrincipalComponent {
 
   constructor(
-    // private ConsultaService : CatalogosService,
+   private ConsultaService : ConsultasService,
     private ActivatedRoute : ActivatedRoute,
     private Router : Router,
     // private formBuilder : FormBuilder,private primengConfig: PrimeNGConfig,
@@ -24,8 +25,14 @@ export class PrincipalComponent {
       
     }
 
+    ngOnInit(): void {
+     this.ConsultaService.logout()
+ }
+
+
     login(){
-      this.Router.navigateByUrl('/auth/login');
+      this.Router.navigate(['auth', 'login'], { replaceUrl: true });
+
 
     }
 

@@ -45,7 +45,7 @@
                         <div class="column">
                             <label for="password2" class="block text-white font-medium text-lg mb-2">Confirmación Contraseña</label>
                             <p-password id="password2" formControlName="confirmacionContraseña" (keyup)="confirmacion()" placeholder="Confirmar Contraseña" [toggleMask]="true" [feedback]="false" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-20rem"></p-password>
-                            <span class=" text-white font-medium text-sm mb-2" *ngIf="validaPassword">Contraseñas no coinciden</span>
+                            <span class="block text-white text-center text-sm" *ngIf="validaPassword">**Contraseñas no coinciden**</span>
                         </div>
                     </div>
                     <p-button  pRipple  label="Crear Cuenta" type="submit" icon="pi pi-user" class="flex justify-content-center p-3 text-xl border-round-4xl" severity="secondary" size="large" [rounded]="true"></p-button>

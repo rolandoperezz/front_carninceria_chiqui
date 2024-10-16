@@ -11,7 +11,7 @@
                     <div class="flex align-items-center justify-content-center">
                         <img  src="../../../../../assets/demo/images/principal/fondo.png" alt="Filete Mignon" style="width: 30%;">
                     </div>
-                    <span class="text-4xl text-center text-white">Recuperación de Contraseña</span>
+                    <span class="text-3xl text-center text-white">Recuperación de Contraseña</span>
                     <br>
                 <form *ngIf="validaCorreo == false" [formGroup]="formConsulta" (submit)="enviar()">
                     <div class="columns">
@@ -30,7 +30,7 @@
                     
                         <div class="flex flex-column align-items-center">
                             <!-- <div class="font-bold text-xl mb-2">Authenticate Your Account</div> -->
-                            <p class="text-white block mb-5">Ingresa el codigo enviado a tu correo.</p>
+                            <p class="block text-white text-lg text-center font-medium mb-2">Ingresa el codigo enviado a tu correo.</p>
                             
                             <input  formControlName="codigo" type="text" placeholder="Codigo" pInputText class="w-full md:w-full mb-5" >
                             <div class="flex justify-content-center mt-5 align-self-stretch">
@@ -55,10 +55,10 @@
                                 <label for="password2" class="block text-white font-medium text-lg mb-2">Confirmación Contraseña</label>
                                 <p-password id="password2" formControlName="confirmacionContraseña" (keyup)="confirmacion()" placeholder="Confirmar Contraseña" [toggleMask]="true" [feedback]="false" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-20rem"></p-password>
                                 <br>
-                                <span class=" text-white font-medium text-sm mb-2" *ngIf="validaPassword">Contraseñas no coinciden</span>
+                                <span class="block text-white text-center text-sm" *ngIf="validaPassword">**Contraseñas no coinciden**</span>
                             </div>
                         </div>
-                        <p-button  pRipple  label="Cambiar Contraseña" type="submit" class="flex justify-content-center p-3 text-xl border-round-4xl" severity="secondary" size="large" [rounded]="true"></p-button>
+                        <p-button  pRipple  label="Cambiar Contraseña" icon="pi pi-key" type="submit" class="flex justify-content-center p-3 text-xl border-round-4xl" severity="secondary" size="large" [rounded]="true"></p-button>
                         <hr>
                         <p-button class="flex justify-content-center text-white" icon="pi pi-caret-left" size="large" label="Regresar" severity="secondary" [rounded]="true" (click)="regresar1()"/>
                 </form>

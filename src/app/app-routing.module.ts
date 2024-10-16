@@ -8,23 +8,18 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
         RouterModule.forRoot([
             { path: '', redirectTo: 'auth/inicio', pathMatch: 'full' },
             {
-                path: '', component: AppLayoutComponent,
+                path: 'layout', component: AppLayoutComponent,
                 children: [
-                    { path: '', loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule) },
+                    { path: 'inicio1', loadChildren: () => import('./body/inicio/inicio.module').then(m => m.InicioModule) },
+                    { path: 'roles', loadChildren: () => import('./body/roles/roles.module').then(m => m.RolesModule) },
+                    { path: 'usuarios', loadChildren: () => import('./body/usuarios/usuarios.module').then(m => m.UsuariosModule) },
 
-                    { path: 'inicio', loadChildren: () => import('./body/inicio/inicio.module').then(m => m.InicioModule) },
-
-                    { path: 'uikit', loadChildren: () => import('./demo/components/uikit/uikit.module').then(m => m.UIkitModule) },
-                    { path: 'utilities', loadChildren: () => import('./demo/components/utilities/utilities.module').then(m => m.UtilitiesModule) },
-                    { path: 'documentation', loadChildren: () => import('./demo/components/documentation/documentation.module').then(m => m.DocumentationModule) },
-                    { path: 'blocks', loadChildren: () => import('./demo/components/primeblocks/primeblocks.module').then(m => m.PrimeBlocksModule) },
-                    { path: 'pages', loadChildren: () => import('./demo/components/pages/pages.module').then(m => m.PagesModule) }
                 ]
             },
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },
             { path: 'landing', loadChildren: () => import('./demo/components/landing/landing.module').then(m => m.LandingModule) },
             { path: 'notfound', component: NotfoundComponent },
-            // { path: '**', redirectTo: '/notfound' },
+            { path: '**', redirectTo: 'auth' },
         ], { scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled', onSameUrlNavigation: 'reload' })
     ],
     exports: [RouterModule]

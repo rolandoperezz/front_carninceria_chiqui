@@ -24,6 +24,8 @@ export class AppTopBarComponent {
 
     logout() {
         this.ConsultaService.logout();
-        this.Router.navigate(['/login']);
+      console.log("Token eliminado del localStorage.");
+      // Navega a 'auth/inicio' reemplazando la URL actual
+      this.Router.navigate(['auth', 'inicio'], { replaceUrl: true });
       }
 }
