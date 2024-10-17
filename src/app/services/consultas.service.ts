@@ -58,7 +58,7 @@ export class ConsultasService {
     return this.http.post(`${this.urlback}Rol/NuevoRol`,body)
   }
   consRoles(){
-    return this.http.get(`${this.urlback}Rol/ListRol`)
+    return this.http.get(`${this.urlback}Rol/ListRoles`)
   }
 
   updateRoles(body:any){
