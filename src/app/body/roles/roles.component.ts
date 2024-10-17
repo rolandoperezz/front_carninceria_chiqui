@@ -20,7 +20,7 @@ import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 export class RolesComponent {
 
   formConsulta! : FormGroup
-
+  error: boolean = false
   cat_roles: any
   datos: any
 
@@ -91,25 +91,89 @@ private formBuilder : FormBuilder
   }
   
   
+
   public tipoModal(tipo:any,valor:any){
     this.tipo_modal = tipo
     if (this.tipo_modal == 'A') {
         this.tituloModal = 'Agregar Rol'
         this.showModalDialog();
         this.formulario()
-  
+       
     }else{
       if (this.tipo_modal == 'E') {
-        this.tituloModal = 'Editar Rol'
+        this.tituloModal = 'Editar Estado'
         this.showModalDialog();
         this.formConsulta.patchValue(valor)
       }
     }
   }
 
-  guardar(){
 
+
+  guardar(){
+    switch (this.tipo_modal) {
+      case 'A':
+        if (this.formConsulta.valid) {
+          this.formConsulta.removeControl('id_Rol')
+          // this.formConsulta.controls['USUARIO_WEB'].setValue(this.datos_usuario.nombre)
+          this.ConsultaService.insRoles(this.formConsulta.value).subscribe(info=>{
+            // console.log(info)
+            if (info === true) {
+             this.not_success('Registro Guardado')
+             this.modalclose()
+              this.cat_roles()
+           }else{
+             this.modalclose()
+             this.not_error('A ocurrido un error, intente nuevamente')
+             this.cat_roles()
+           }
+       })
+    
+        }else{
+          this.not_warning('Llene los campos requeridos')
+          this.error = true
+          this.markAllFieldsAsTouched(this.formConsulta);
+        }
+        break;
+      case 'E':
+        if (this.formConsulta.valid) {
+          this.formConsulta.removeControl('USUARIO_WEB')
+          // this.formConsulta.controls['USUARIO_MODIFICA_WEB'].setValue(this.datos_usuario.nombre)
+          this.ConsultaService.updateRoles(this.formConsulta.value).subscribe(info=>{
+            // console.log(info)
+            if (info) {
+             this.not_success('Registro Actualizado')
+             this.modalclose()
+              // this.catEstado()
+           }else{
+             this.modalclose()
+             this.not_error('A ocurrido un error, intente nuevamente')
+            //  this.catEstado()
+           }
+       })
+    
+        }else{
+          this.not_warning('Llene los campos requeridos')
+          this.error = true
+          this.markAllFieldsAsTouched(this.formConsulta);
+        }
+        break;
+    
+      default:
+        break;
+    }
   }
+
+
+private markAllFieldsAsTouched(formGroup: FormGroup) {
+  Object.values(formGroup.controls).forEach(control => {
+    control.markAsTouched();
+
+    if (control instanceof FormGroup) {
+      this.markAllFieldsAsTouched(control);
+    }
+  });
+}
 
 
   not_warning(text:any){
