@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 export class ConsultasService {
 
   urlback="https://localhost:7237/"
+  // urlback="http://www.cchiqui.somee.com/"
 
   constructor(private http: HttpClient) { }
   
@@ -18,8 +19,9 @@ export class ConsultasService {
     return localStorage.getItem('token');
   }
 
+
   // Método para guardar el token en el inicio de sesión
-  setToken(token: string): void {
+  setToken(token: any): void {
     localStorage.setItem('token', token);  // Guarda el token en el almacenamiento local
   }
 

@@ -11,23 +11,19 @@ import { Report } from 'notiflix/build/notiflix-report-aio';
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 
 @Component({
-  selector: 'app-usuarios',
+  selector: 'app-categoria-producto',
   standalone: false,
-  templateUrl: './usuarios.component.html',
-  styleUrl: './usuarios.component.scss'
+  templateUrl: './categoria-producto.component.html',
+  styleUrl: './categoria-producto.component.scss'
 })
-export class UsuariosComponent {
-
+export class CategoriaProductoComponent {
   formConsulta! : FormGroup
   error: boolean = false
-  cat_roles: any
   datos: any
-
-
+cat_estados:any
   tituloModal: any
   tipo_modal: any
   displayModal: boolean = false;
-  validaPassword: boolean = false
 
   constructor(    private Router : Router,
     private ConsultaService : ConsultasService,
@@ -46,8 +42,8 @@ private formBuilder : FormBuilder
       // Navega a 'auth/inicio' reemplazando la URL actual
       this.Router.navigate(['auth', 'inicio'], { replaceUrl: true });
     }
-    this.consRoles()
-    this.consUsuarios()
+    this.consCatego()
+    this.consEstados()
   }
 
 
@@ -67,48 +63,34 @@ private formBuilder : FormBuilder
 
 
 
-  consRoles(){
+  consCatego(){
     
-    this.ConsultaService.consRoles().subscribe(info=>{
-      // console.log(info)
-      this.cat_roles = info
-    })
-  }
-
-
-  consUsuarios(){
-    this.ConsultaService.consUsuarios().subscribe(info=>{
+    this.ConsultaService.consCategorias().subscribe(info=>{
       console.log(info)
       this.datos = info
     })
   }
 
-  private formulario(){
-    this.formConsulta = this.formBuilder.group({
-      id_Usuario: ['',],
-      nombre: ['', Validators.required],  // Valor inicial y validador requerido
-      direccion: ['', ],
-      telefono: ['', Validators.required ],
-      correo: ['',  Validators.required],
-      contraseña: ['',  Validators.required],
-      confirmacionContraseña: ['', Validators.required],
-      fecha_Registro: ['', ],
-      id_Rol: ['', ]
-    });
+
+
+  consEstados(){
+    
+      this.cat_estados=[{
+        id_Estado:1,
+        descripcion:'Activo'
+      },{
+        id_Estado:2,
+        descripcion:'Inactivo' 
+      }]
   }
 
-  confirmacion(){
-    
-    if (this.formConsulta.controls['confirmacionContraseña'].value === this.formConsulta.controls['contraseña'].value ) {
-      console.log('contraseñas coinciden')
-      this.validaPassword = false
-    }else{
-      this.validaPassword = true
-      console.log('contraseñas no coinciden')
-    }
-}
-
-
+  private formulario(){
+    this.formConsulta = this.formBuilder.group({
+      id_Categoria: ['', ],
+      descripcion: ['',Validators.required],
+      id_Estado: ['']
+    });
+  }
 
   
   showModalDialog() {
@@ -125,13 +107,13 @@ private formBuilder : FormBuilder
   public tipoModal(tipo:any,valor:any){
     this.tipo_modal = tipo
     if (this.tipo_modal == 'A') {
-        this.tituloModal = 'Agregar Usuario'
+        this.tituloModal = 'Agregar Categoria de Producto'
         this.showModalDialog();
         this.formulario()
        
     }else{
       if (this.tipo_modal == 'E') {
-        this.tituloModal = 'Editar Usuario'
+        this.tituloModal = 'Editar Categoria de Producto'
         this.showModalDialog();
         this.formConsulta.patchValue(valor)
       }
@@ -144,29 +126,20 @@ private formBuilder : FormBuilder
     switch (this.tipo_modal) {
       case 'A':
         if (this.formConsulta.valid) {
-
-          if (this.validaPassword == false) {
-            this.formConsulta.controls['fecha_Registro'].setValue(moment().format('YYYY-MM-DD'))
-            // this.formConsulta.controls['id_rol'].setValue(1)
-            this.formConsulta.removeControl('confirmacionContraseña')
-            this.formConsulta.removeControl('id_Usuario')
-            // this.formConsulta.controls['USUARIO_WEB'].setValue(this.datos_usuario.nombre)
-            this.ConsultaService.RegistroUsuario(this.formConsulta.value).subscribe(info=>{
-              // console.log(info)
-              if (info === true) {
-               this.not_success('Registro Guardado')
-               this.modalclose()
-                this.consUsuarios()
-             }else{
-               this.modalclose()
-               this.not_error('A ocurrido un error, intente nuevamente')
-               this.consUsuarios()
-             }
-         })
-          }else{
-
-          }
-        
+          this.formConsulta.removeControl('id_Categoria')
+          this.formConsulta.controls['id_Estado'].setValue(1)
+          this.ConsultaService.insCategorias(this.formConsulta.value).subscribe(info=>{
+            // console.log(info)
+            if (info === true) {
+             this.not_success('Registro Guardado')
+             this.modalclose()
+              this.consCatego()
+           }else{
+             this.modalclose()
+             this.not_error('A ocurrido un error, intente nuevamente')
+             this.consCatego()
+           }
+       })
     
         }else{
           this.not_warning('Llene los campos requeridos')
@@ -176,19 +149,17 @@ private formBuilder : FormBuilder
         break;
       case 'E':
         if (this.formConsulta.valid) {
-          this.formConsulta.removeControl('USUARIO_WEB')
-          // this.formConsulta.controls['USUARIO_MODIFICA_WEB'].setValue(this.datos_usuario.nombre)
-          this.ConsultaService.updateUsuarios(this.formConsulta.value).subscribe(info=>{
-            // console.log(info)
+          this.ConsultaService.updateCategorias(this.formConsulta.value).subscribe(info=>{
+            console.log(info)
             if (info) {
              this.not_success('Registro Actualizado')
              this.modalclose()
-               this.consUsuarios()
-           }else{
+             this.consCatego()
+            }else{
              this.modalclose()
              this.not_error('A ocurrido un error, intente nuevamente')
-             this.consUsuarios()
-           }
+             this.consCatego()
+            }
        })
     
         }else{
@@ -238,6 +209,4 @@ private markAllFieldsAsTouched(formGroup: FormGroup) {
       'Listo',
       );
   }
-
-  
 }

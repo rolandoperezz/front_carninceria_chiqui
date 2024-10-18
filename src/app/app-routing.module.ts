@@ -13,6 +13,7 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
                     { path: 'inicio1', loadChildren: () => import('./body/inicio/inicio.module').then(m => m.InicioModule) },
                     { path: 'roles', loadChildren: () => import('./body/roles/roles.module').then(m => m.RolesModule) },
                     { path: 'usuarios', loadChildren: () => import('./body/usuarios/usuarios.module').then(m => m.UsuariosModule) },
+                    { path: 'categoria', loadChildren: () => import('./body/categoria-producto/categoria-producto.module').then(m => m.CategoriaProductoModule) },
 
                 ]
             },

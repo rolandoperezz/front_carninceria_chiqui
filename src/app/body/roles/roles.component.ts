@@ -101,7 +101,7 @@ private formBuilder : FormBuilder
        
     }else{
       if (this.tipo_modal == 'E') {
-        this.tituloModal = 'Editar Estado'
+        this.tituloModal = 'Editar Rol'
         this.showModalDialog();
         this.formConsulta.patchValue(valor)
       }
@@ -121,12 +121,12 @@ private formBuilder : FormBuilder
             if (info === true) {
              this.not_success('Registro Guardado')
              this.modalclose()
-              this.cat_roles()
+              this.consRoles()
            }else{
              this.modalclose()
              this.not_error('A ocurrido un error, intente nuevamente')
-             this.cat_roles()
-           }
+             this.consRoles()
+            }
        })
     
         }else{
@@ -144,12 +144,12 @@ private formBuilder : FormBuilder
             if (info) {
              this.not_success('Registro Actualizado')
              this.modalclose()
-              // this.catEstado()
-           }else{
+             this.consRoles()
+            }else{
              this.modalclose()
              this.not_error('A ocurrido un error, intente nuevamente')
-            //  this.catEstado()
-           }
+             this.consRoles()
+            }
        })
     
         }else{

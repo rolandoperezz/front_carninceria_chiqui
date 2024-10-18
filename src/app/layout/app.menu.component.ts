@@ -20,6 +20,11 @@ export class AppMenuComponent implements OnInit {
             var tmp1 = []
             tmp1.push(
                 {
+                    nombre:'Categoria Productos',
+                    icon: 'pi pi-file',
+                    routerLink: '/layout/categoria'
+                },
+                {
                 nombre:'Roles',
                 icon: 'pi pi-file',
                 routerLink: '/layout/roles'
@@ -28,11 +33,6 @@ export class AppMenuComponent implements OnInit {
                 nombre:'Usuarios',
                 icon: 'pi pi-file',
                 routerLink: '/layout/usuarios'
-            },
-            {
-                nombre:'Prueba',
-                icon: 'pi pi-file',
-                routerLink: '/layout/inicio1'
             },
         )
 
