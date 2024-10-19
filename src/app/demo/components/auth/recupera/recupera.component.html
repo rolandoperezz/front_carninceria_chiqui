@@ -32,7 +32,8 @@
                             <!-- <div class="font-bold text-xl mb-2">Authenticate Your Account</div> -->
                             <p class="block text-white text-lg text-center font-medium mb-2">Ingresa el codigo enviado a tu correo.</p>
                             
-                            <input  formControlName="codigo" type="text" placeholder="Codigo" pInputText class="w-full md:w-full mb-5" >
+                            <input  formControlName="codigo" type="text" placeholder="Codigo de 6 digitos" type="number" class="w-full md:w-full mb-5" maxLength="6" oninput="validity.valid||(value=''); javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
+                          
                             <div class="flex justify-content-center mt-5 align-self-stretch">
                                 <!-- <p-button class="flex justify-content-center text-white" label="Reenviar Codigo" [rounded]="true"  size="large" icon="pi pi-send" /> -->
                                 <p-button class="flex justify-content-center text-white" type="submit" severity="secondary" size="large" [rounded]="true"  icon="pi pi-check-circle" label="Confirmar"/>

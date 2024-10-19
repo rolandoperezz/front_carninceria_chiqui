@@ -37,7 +37,7 @@ export class ConsultasService {
   }
 
   CorreoPass(body:any){
-    return this.http.post(`${this.urlback}Email/CorreoRecuperarPass`,body)
+    return this.http.post(`${this.urlback}Usuario/CodigoRecuperacion`,body)
   }
 
 //Servicios para usuarios
@@ -131,5 +131,13 @@ export class ConsultasService {
     deletePaginasRol(body:any){
       return this.http.delete(`${this.urlback}RolPagina/EliminarPaginaRol?id=${body}`)
     }
-  
+
+
+    validarCodigo(body:any){
+      return this.http.get(`${this.urlback}Usuario/ValidarCodigo?codigo=${body}`,)
+    }
+
+    cambioContraseña(body:any){
+      return this.http.put(`${this.urlback}Usuario/CambiarContraseña`,body)
+    }
 }
