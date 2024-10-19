@@ -84,25 +84,14 @@ export class RecuperaComponent {
 
     if (this.formConsulta.valid ) {
         // console.log(this.formConsulta.value)
+        this.ConsultaService.CorreoPass({to:this.formConsulta.controls['correo'].value}).subscribe(info=>{
+          if(info == true){
+            this.validaCorreo = true
 
-        this.validaCorreo = true
-
-      //   this.ConsultaService.RegistroUsuario(this.formConsulta.value).subscribe(info=>{
-
-      //     if(info == true){
-
-      //         // this.not_success('Registro Completo, Inicia Sesion!')
-      //         // this.Router.navigateByUrl('/auth/login');
-      //       }
-      
-      // },error=>{
-      //     if (error['status'] == 404) {
-
-      //         this.not_warning(error['error'])
-      //     }
-      // })
-
-
+          }else{
+            this.not_warning('Correo no existe')
+          }
+      })
     }else{
         this.not_warning('Ingrese un correo')
         // console.log('campos requeridos')

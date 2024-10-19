@@ -15,49 +15,31 @@ export class AppMenuComponent implements OnInit {
     ngOnInit() {
       var tmp =  this.consulta.getToken()
         console.log(tmp)
-
-        // aca debo de colocar el servicio que traiga los menus segun el rol
-            var tmp1 = []
-            tmp1.push(
-                {
-                    nombre:'Categoria Productos',
-                    icon: 'pi pi-file',
-                    routerLink: '/layout/categoria'
-                },
-                {
-                nombre:'Roles',
-                icon: 'pi pi-file',
-                routerLink: '/layout/roles'
-            },
-            {
-                nombre:'Usuarios',
-                icon: 'pi pi-file',
-                routerLink: '/layout/usuarios'
-            },
-        )
-
-        if (tmp1.length > 0) {
-            this.model = [
-                {
-                    items: tmp1.map(item => ({
-                        label: item.nombre,     // Asegúrate de que 'nombre' venga del backend
-                        icon: item.icon,        // Asegúrate de que 'icon' venga del backend
-                        routerLink: [item.routerLink]  // Asegúrate de que 'routerLink' venga del backend
-                      }))
-                },
-                {
-                    items:[
-                        {label: 'Cerrar Sesión',
-                        icon: 'pi pi-sign-out',
-                        routerLink: ['auth','inicio']
-                        }
-                    ]
-                }
-              
-            ];
-        }
+        var tmp1 = []
+        this.consulta.consPaginasRol(tmp.id_Rol).subscribe(info => {
+                // Asegúrate de concatenar los elementos en tmp1 en lugar de hacer push de un array completo
+                tmp1 = tmp1.concat(info);  // o tmp1 = [...tmp1, ...info] para concatenar
         
-
+                // Genera el modelo de navegación
+                this.model = [
+                    {
+                        items: tmp1.map(item => ({
+                            label: item.nombre,   // Asumiendo que 'nombre' es el campo correcto
+                            icon: item.icono,     // Asumiendo que 'icono' es el campo correcto
+                            routerLink: [item.url]  // Asegúrate de que 'url' sea parte de los datos
+                        }))
+                    },
+                    {
+                        items: [
+                            { 
+                                label: 'Cerrar Sesión',
+                                icon: 'pi pi-sign-out',
+                                routerLink: ['auth', 'inicio']
+                            }
+                        ]
+                    }
+                ];
+        });
 
       
     }

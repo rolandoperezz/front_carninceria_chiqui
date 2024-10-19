@@ -63,7 +63,7 @@ export class LoginComponent {
             (info: any) => {
               console.log(info)
               // Guardar el token de autenticación
-              this.ConsultaService.setToken(info.id_Rol);  // Asegúrate de que 'info.token' contenga el token de respuesta
+              this.ConsultaService.setToken(info);  // Asegúrate de que 'info.token' contenga el token de respuesta
       
               this.not_success('Bienvenido (a)');
               this.Router.navigate(['layout', 'inicio1'], { replaceUrl: true });

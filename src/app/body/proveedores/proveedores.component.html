@@ -1,0 +1,95 @@
+<div class="grid">
+	<div class="col-12">
+		
+	<p-card>
+		<section class="hero is-small ">
+			<div class="parent1">
+				<span class="text-4xl text-center">Catalogo Proveedores</span>
+			</div>
+		  </section>
+		  <br>
+		<p-table #dt1 [value]="datos" styleClass="p-datatable-striped" responsiveLayout="scroll" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" currentPageReportTemplate="Se muestra {first} de {last} de {totalRecords} datos" [globalFilterFields]="['id_Rol','descripcion']">
+			<ng-template pTemplate="caption">
+				<div class="flex">
+					<p-button icon="pi pi-plus-circle" severity="success" (click)="tipoModal('A','')"></p-button>
+					<span class="p-input-icon-left ml-auto">
+						<i class="pi pi-search"></i>
+						<input pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')"  placeholder="Buscar" />
+					</span>
+				</div>
+			</ng-template>
+			<ng-template  pTemplate="header">
+				<tr>
+				  <th [style]="{'font-size': '13px', 'text-align': 'center'}">No.</th>
+					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Nombre</th>
+					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Tel</th>
+					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Editar</th>
+
+				</tr>
+			</ng-template>
+			<ng-template  pTemplate="body" let-product let-rowIndex="rowIndex">
+				<tr>
+				  <td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{rowIndex+1}}</td>
+					<td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{product.nombre_Proveedor}}</td>
+					<td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{product.telefono}}</td>
+					<td [style]="{'font-size': '13px', 'text-align': 'center'}"><button  (click)="tipoModal('E',product)" pButton type="button" icon="pi pi-pencil"  class="p-button-info is-small" iconPos="left" ></button></td>
+
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="emptymessage">
+				<tr>
+				  <td colspan="5">No Hay Información.</td>
+				</tr>
+			  </ng-template>
+		</p-table>
+	</p-card>
+
+		</div>
+
+
+	<p-dialog [header]="tituloModal" 
+	[modal]="true" 
+	[(visible)]="displayModal" 
+	[style]="{ width: '25rem' }" >
+	<div *ngIf="tipo_modal == 'A' || tipo_modal == 'E'" class="flex  flex-column gap-3">
+        <form [formGroup]="formConsulta" (submit)="guardar()">
+                <div class="inline-flex">
+                <div class="flex-1">
+                    <label  class="font-semibold w-6rem">Nombre Proveedor:</label>
+                    <input  formControlName="nombre_Proveedor" [ngClass]="{'alertaBoton': formConsulta.controls['nombre_Proveedor'].invalid && (formConsulta.controls['nombre_Proveedor'].dirty || formConsulta.controls['nombre_Proveedor'].touched)}"  placeholder="nombre Proveedor" class="input is-info Bts1" type="text" >
+                    <span *ngIf="formConsulta.controls['nombre_Proveedor'].invalid && (formConsulta.controls['nombre_Proveedor'].dirty || formConsulta.controls['nombre_Proveedor'].touched)" style="font-size: 14px; color: red;">Campo requerido.</span>
+                </div>
+                &nbsp;
+                <div class="flex-1">
+                    <label  class="font-semibold w-6rem">Nombre Contacto:</label>
+                    <input formControlName="nombre_Contacto" [ngClass]="{'alertaBoton': formConsulta.controls['nombre_Contacto'].invalid && (formConsulta.controls['nombre_Contacto'].dirty || formConsulta.controls['nombre_Contacto'].touched)}"  placeholder="nombre Contacto" class="input is-info Bts1" type="text" >
+                    <span *ngIf="formConsulta.controls['nombre_Contacto'].invalid && (formConsulta.controls['nombre_Contacto'].dirty || formConsulta.controls['nombre_Contacto'].touched)" style="font-size: 14px; color: red;">Campo requerido.</span>
+                </div>
+                </div> 
+                <div class="">
+                    <label  class="font-semibold w-6rem">Dirección:</label>
+                    <input formControlName="direccion" [ngClass]="{'alertaBoton': formConsulta.controls['direccion'].invalid && (formConsulta.controls['direccion'].dirty || formConsulta.controls['direccion'].touched)}"  placeholder="Direccion" class="input is-info Bts1" type="text"  >
+                    <span *ngIf="formConsulta.controls['direccion'].invalid && (formConsulta.controls['direccion'].dirty || formConsulta.controls['direccion'].touched)" style="font-size: 14px; color: red;">Campo requerido.</span>
+                </div> 
+                <div class="">
+                    <label  class="font-semibold w-6rem">Télefono:</label>
+                    <input formControlName="telefono" [ngClass]="{'alertaBoton': formConsulta.controls['telefono'].invalid && (formConsulta.controls['telefono'].dirty || formConsulta.controls['telefono'].touched)}"  placeholder="Telefono" class="input is-info Bts1" type="text"  maxlength="8"  oninput="validity.valid||(value=''); javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                    <span *ngIf="formConsulta.controls['telefono'].invalid && (formConsulta.controls['telefono'].dirty || formConsulta.controls['telefono'].touched)" style="font-size: 14px; color: red;">Campo requerido.</span>
+                </div> 
+                <div class="">
+                    <label  class="font-semibold w-6rem">Correo:</label>
+                    <input formControlName="correo" [ngClass]="{'alertaBoton': formConsulta.controls['correo'].invalid && (formConsulta.controls['correo'].dirty || formConsulta.controls['correo'].touched)}"  placeholder="correo" class="input is-info Bts1" type="text" >
+                    <span *ngIf="formConsulta.controls['correo'].invalid && (formConsulta.controls['correo'].dirty || formConsulta.controls['correo'].touched)" style="font-size: 14px; color: red;">Campo requerido.</span>
+                </div>
+
+                <div class="flex justify-content-end gap-2">
+                    <p-button label="Cancelar" severity="secondary" (click)="modalclose()" />
+                    <p-button label="Guardar" type="submit" severity="success"/>
+                </div>
+        </form>
+    </div>
+
+
+
+    </p-dialog>
+</div>

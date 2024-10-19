@@ -14,6 +14,7 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
                     { path: 'roles', loadChildren: () => import('./body/roles/roles.module').then(m => m.RolesModule) },
                     { path: 'usuarios', loadChildren: () => import('./body/usuarios/usuarios.module').then(m => m.UsuariosModule) },
                     { path: 'categoria', loadChildren: () => import('./body/categoria-producto/categoria-producto.module').then(m => m.CategoriaProductoModule) },
+                    { path: 'proveedores', loadChildren: () => import('./body/proveedores/proveedores.module').then(m => m.ProveedoresModule) },
 
                 ]
             },

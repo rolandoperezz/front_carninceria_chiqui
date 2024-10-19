@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { ConsultasService } from 'src/app/services/consultas.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import * as moment from 'moment';
+
+moment.locale('es');
+
+
 @Component({
   selector: 'app-inicio',
   standalone: true,
@@ -11,8 +16,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class InicioComponent {
 
-
-
+  datosUsuario:any
+  fecha:any
 
   constructor(    private Router : Router,
     private ConsultaService : ConsultasService,
@@ -29,7 +34,10 @@ private ActivatedRoute : ActivatedRoute,
       if (!this.ConsultaService.isAuthenticated()) {
         // Navega a 'auth/inicio' reemplazando la URL actual
         this.Router.navigate(['auth', 'inicio'], { replaceUrl: true });
+      }else{
+         this.datosUsuario =  this.ConsultaService.getToken()
       }
+     this.fecha=  moment().format('DD-MMMM-YYYY')
     }
   
     ngOnDestroy(): void {

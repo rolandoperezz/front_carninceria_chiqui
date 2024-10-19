@@ -27,6 +27,10 @@ export class RolesComponent {
   tituloModal: any
   tipo_modal: any
   displayModal: boolean = false;
+  datosPaginas:any
+  formConsulta2! : FormGroup
+  id_rol: any;
+  paginas:any
 
   constructor(    private Router : Router,
     private ConsultaService : ConsultasService,
@@ -35,6 +39,8 @@ private formBuilder : FormBuilder
 
     ) {
         this.formulario()
+        this.formulario1()
+
      }
 
   ngOnInit(): void {
@@ -46,6 +52,7 @@ private formBuilder : FormBuilder
       this.Router.navigate(['auth', 'inicio'], { replaceUrl: true });
     }
     this.consRoles()
+    this.consPagina()
   }
 
 
@@ -73,6 +80,21 @@ private formBuilder : FormBuilder
     })
   }
 
+  consPagxRol(id:any){
+    this.ConsultaService.consPaginasRol(id).subscribe(info=>{
+      console.log(info)
+      this.datosPaginas = info
+    })
+  }
+
+
+  consPagina(){
+    this.ConsultaService.consPaginas().subscribe(info=>{
+      console.log(info)
+      this.paginas = info
+    })
+  }
+
   private formulario(){
     this.formConsulta = this.formBuilder.group({
       id_Rol: ['', ],
@@ -91,21 +113,51 @@ private formBuilder : FormBuilder
   }
   
   
+  private formulario1(){
+    this.formConsulta2 = this.formBuilder.group(
+      {
+        idRol_Pagina:                [''],
+        id_Rol:                [''],
+        id_Pagina:                      ['', Validators.required],
+      }
+    );
+  }
+
 
   public tipoModal(tipo:any,valor:any){
     this.tipo_modal = tipo
-    if (this.tipo_modal == 'A') {
-        this.tituloModal = 'Agregar Rol'
+    switch (this.tipo_modal) {
+      case 'A':
+        this.tituloModal = 'Agregar Proveedor'
         this.showModalDialog();
         this.formulario()
-       
-    }else{
-      if (this.tipo_modal == 'E') {
-        this.tituloModal = 'Editar Rol'
+        break;
+        case 'E':
+          this.tituloModal = 'Editar Proveedor'
         this.showModalDialog();
         this.formConsulta.patchValue(valor)
-      }
+        break;
+        case 'P':
+          this.tituloModal = 'Menus Asignadas'
+          this.consPagxRol(valor.id_Rol)
+          this.showModalDialog();
+          this.id_rol = valor.id_Rol
+           break;
+           case 'AP':
+            this.tituloModal = 'Agregar Menu'
+            this.formulario1()
+
+           break;
+           case 'EP':
+            this.tituloModal = 'Editar Menu'
+            this.formConsulta2.patchValue(valor)
+           break;
+      default:
+        break;
     }
+
+   
+
   }
 
 
@@ -158,10 +210,84 @@ private formBuilder : FormBuilder
           this.markAllFieldsAsTouched(this.formConsulta);
         }
         break;
+        case 'AP':
+          if (this.formConsulta2.valid) {
+            this.formConsulta2.removeControl('idRol_Pagina')
+           this.formConsulta2.controls['id_Rol'].setValue(this.id_rol)
+            this.ConsultaService.insPaginasRol(this.formConsulta2.value).subscribe(info=>{
+              console.log(info)
+              if (info === true) {
+               this.not_success('Registro Guardado')
+               this.tipoModal('P',{id_Rol:this.id_rol})
+
+               
+             }else{
+               this.not_error('A ocurrido un error, intente nuevamente')
+               this.tipoModal('P',{id_Rol:this.id_rol})
+
+              }
+         })
+      
+          }else{
+            this.not_warning('Llene los campos requeridos')
+            this.error = true
+            this.markAllFieldsAsTouched(this.formConsulta2);
+          }
+        break;
+
+        case 'EP':
+          if (this.formConsulta2.valid) {
+            this.formConsulta2.controls['id_Rol'].setValue(this.id_rol)
+            this.ConsultaService.updaPaginasRol(this.formConsulta2.value).subscribe(info=>{
+               console.log(info)
+              if (info == true) {
+               this.not_success('Registro Actualizado')
+               this.tipoModal('P',{id_Rol:this.id_rol})
+
+              }else{
+               this.not_error('A ocurrido un error, intente nuevamente')
+               this.tipoModal('P',{id_Rol:this.id_rol})
+              }
+         })
+      
+          }else{
+            this.not_warning('Llene los campos requeridos')
+            this.error = true
+            this.markAllFieldsAsTouched(this.formConsulta);
+          }
+          break;
     
       default:
         break;
     }
+  }
+
+
+  not_seguro1(data:any){
+    Confirm.show(
+      'Importante',
+      'Esta seguro que desea eliminar la ficha?',
+      'Aceptar',
+      'Cancelar',
+      () => {
+        this.eliminar(data)
+      },
+      () => {
+  
+      },
+      {
+      },
+      );
+  }
+
+  eliminar(data){
+      console.log(data)
+      this.ConsultaService.deletePaginasRol(data.idRol_Pagina).subscribe(info=>{
+          if (info=== true) {
+              this.not_success('Menu Eliminado con Exito')
+              this.tipoModal('P',{id_Rol:this.id_rol})
+          }
+      })
   }
 
 

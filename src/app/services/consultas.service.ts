@@ -15,20 +15,29 @@ export class ConsultasService {
     return !!localStorage.getItem('token');  // Comprueba si existe un token en el almacenamiento local
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  getToken(): any {
+    const token = localStorage.getItem('token');
+    return token ? JSON.parse(token) : null;  // Convierte la cadena JSON de vuelta a un objeto
   }
-
 
   // Método para guardar el token en el inicio de sesión
   setToken(token: any): void {
-    localStorage.setItem('token', token);  // Guarda el token en el almacenamiento local
+    localStorage.setItem('token', JSON.stringify(token));  // Convierte el objeto en una cadena JSON antes de guardarlo
   }
 
   // Método para cerrar sesión
   logout(): void {
     localStorage.removeItem('token');  // Elimina el token del almacenamiento local
     // console.log('Sesión cerrada y token eliminado.');
+  }
+
+
+  CorreoBienvenida(body:any){
+    return this.http.post(`${this.urlback}Email/CorreoBienvenida`,body)
+  }
+
+  CorreoPass(body:any){
+    return this.http.post(`${this.urlback}Email/CorreoRecuperarPass`,body)
   }
 
 //Servicios para usuarios
@@ -84,11 +93,43 @@ export class ConsultasService {
     updateCategorias(body:any){
       return this.http.put(`${this.urlback}CategoriaProducto/ActualizarCategoria`,body)
     }
+
+
+    //Servicios Proveedores
   
+    insProveedores(body:any){
+      return this.http.post(`${this.urlback}CategoriaProducto/Registrar`,body)
+    }
+    consProveedores(){
+      return this.http.get(`${this.urlback}CategoriaProducto/ListProveedores`)
+    }
+  
+    updateProveedores(body:any){
+      return this.http.put(`${this.urlback}CategoriaProducto/Actualizar`,body)
+    }
 
 
 
+    // Paginas y Paginas x Rol
+    consPaginas(){
+      return this.http.get(`${this.urlback}RolPagina/ListPaginas`)
+    }
 
 
+    consPaginasRol(body:any){
+      return this.http.get(`${this.urlback}RolPagina/ListPaginaRol?id_Rol=${body}`,)
+    }
+
+    insPaginasRol(body:any){
+      return this.http.post(`${this.urlback}RolPagina/AgregarPaginaRol`,body)
+    }
+
+    updaPaginasRol(body:any){
+      return this.http.put(`${this.urlback}RolPagina/ActualizarPaginaRol`,body)
+    }
+
+    deletePaginasRol(body:any){
+      return this.http.delete(`${this.urlback}RolPagina/EliminarPaginaRol?id=${body}`)
+    }
   
 }

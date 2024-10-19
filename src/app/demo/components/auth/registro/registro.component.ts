@@ -72,7 +72,7 @@ export class RegistroComponent {
       if (this.validaPassword == false) {
 
         this.formConsulta.controls['fecha_Registro'].setValue(moment().format('YYYY-MM-DD'))
-        this.formConsulta.controls['id_rol'].setValue(1)
+        this.formConsulta.controls['id_rol'].setValue(3)
         this.formConsulta.removeControl('confirmacionContraseña')
 
 
@@ -83,6 +83,9 @@ export class RegistroComponent {
 
           if(info == true){
               this.not_success('Registro Completo, Inicia Sesion!')
+              this.ConsultaService.CorreoBienvenida({to:this.formConsulta.controls['correo'].value}).subscribe(info=>{
+                  console.log(info)
+              })
               this.Router.navigateByUrl('auth/login').then(() => {
                 // Limpiar el historial para que no pueda volver al login
                 window.history.pushState(null, '', 'auth/login');
