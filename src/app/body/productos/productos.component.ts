@@ -1,0 +1,63 @@
+import { Component, OnInit, VERSION } from '@angular/core';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { NgClass } from '@angular/common';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validator,FormBuilder,Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConsultasService } from 'src/app/services/consultas.service';
+import { PrimeNGConfig } from 'primeng/api';
+import * as moment from 'moment';
+moment.locale('us');
+import { Report } from 'notiflix/build/notiflix-report-aio';
+import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
+
+@Component({
+  selector: 'app-productos',
+  standalone: false,
+  templateUrl: './productos.component.html',
+  styleUrl: './productos.component.scss'
+})
+export class ProductosComponent {
+
+  formConsulta! : FormGroup
+  error: boolean = false
+  datos: any
+cat_estados:any
+  tituloModal: any
+  tipo_modal: any
+  displayModal: boolean = false;
+
+  constructor(    private Router : Router,
+    private ConsultaService : ConsultasService,
+private ActivatedRoute : ActivatedRoute,
+private formBuilder : FormBuilder
+
+    ) {
+        // this.formulario()
+     }
+
+  ngOnInit(): void {
+    // Escucha el evento popstate cuando el usuario navega hacia atrás
+    window.addEventListener('popstate', this.handlePopState.bind(this));
+
+    if (!this.ConsultaService.isAuthenticated()) {
+      // Navega a 'auth/inicio' reemplazando la URL actual
+      this.Router.navigate(['auth', 'inicio'], { replaceUrl: true });
+    }
+
+  }
+
+
+
+  ngOnDestroy(): void {
+    // Elimina el listener cuando el componente se destruye
+    window.removeEventListener('popstate', this.handlePopState.bind(this));
+  }
+
+  handlePopState(event: any): void {
+    console.log("Navegando hacia atrás en el historial.");
+    this.ConsultaService.logout();
+    console.log("Token eliminado del localStorage.");
+    // Navega a 'auth/inicio' reemplazando la URL actual
+    this.Router.navigate(['auth', 'inicio'], { replaceUrl: true });
+  }
+}
