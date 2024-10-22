@@ -28,14 +28,26 @@ export class AppMenuComponent implements OnInit {
                             icon: item.icono,     // Asumiendo que 'icono' es el campo correcto
                             routerLink: [item.url]  // Asegúrate de que 'url' sea parte de los datos
                         }))
+                        
                     },
+                    
                     {
                         items: [
                             { 
                                 label: 'Cerrar Sesión',
                                 icon: 'pi pi-sign-out',
                                 routerLink: ['auth', 'inicio']
-                            }
+                            },
+                            { 
+                                label: 'Productos',
+                                icon: 'pi pi-sign-out',
+                                routerLink: ['/layout/productos']
+                            },
+                            { 
+                                label: 'Productos',
+                                icon: 'pi pi-sign-out',
+                                routerLink: ['/layout/tienda']
+                            },
                         ]
                     }
                 ];

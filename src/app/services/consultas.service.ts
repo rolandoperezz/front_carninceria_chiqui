@@ -140,4 +140,18 @@ export class ConsultasService {
     cambioContraseña(body:any){
       return this.http.put(`${this.urlback}Usuario/CambiarContraseña`,body)
     }
+
+    //Estado
+
+    insEstado(body:any){
+      return this.http.post(`${this.urlback}CategoriaProducto/NuevaCategoria`,body)
+    }
+    consEstado(){
+      return this.http.get(`${this.urlback}CategoriaProducto/ListCategorias`)
+    }
+  
+    updateEstado(body:any){
+      return this.http.put(`${this.urlback}CategoriaProducto/ActualizarCategoria`,body)
+    }
+
 }

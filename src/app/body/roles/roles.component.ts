@@ -9,6 +9,7 @@ import * as moment from 'moment';
 moment.locale('us');
 import { Report } from 'notiflix/build/notiflix-report-aio';
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
+import { Loading } from 'notiflix';
 
 
 @Component({
@@ -163,6 +164,7 @@ private formBuilder : FormBuilder
 
 
   guardar(){
+    Loading.hourglass()
     switch (this.tipo_modal) {
       case 'A':
         if (this.formConsulta.valid) {
@@ -174,10 +176,14 @@ private formBuilder : FormBuilder
              this.not_success('Registro Guardado')
              this.modalclose()
               this.consRoles()
+              Loading.remove()
+
            }else{
              this.modalclose()
              this.not_error('A ocurrido un error, intente nuevamente')
              this.consRoles()
+             Loading.remove()
+
             }
        })
     
@@ -185,6 +191,8 @@ private formBuilder : FormBuilder
           this.not_warning('Llene los campos requeridos')
           this.error = true
           this.markAllFieldsAsTouched(this.formConsulta);
+          Loading.remove()
+
         }
         break;
       case 'E':
@@ -197,10 +205,14 @@ private formBuilder : FormBuilder
              this.not_success('Registro Actualizado')
              this.modalclose()
              this.consRoles()
+             Loading.remove()
+
             }else{
              this.modalclose()
              this.not_error('A ocurrido un error, intente nuevamente')
              this.consRoles()
+             Loading.remove()
+
             }
        })
     
@@ -208,6 +220,8 @@ private formBuilder : FormBuilder
           this.not_warning('Llene los campos requeridos')
           this.error = true
           this.markAllFieldsAsTouched(this.formConsulta);
+          Loading.remove()
+
         }
         break;
         case 'AP':
@@ -219,11 +233,13 @@ private formBuilder : FormBuilder
               if (info === true) {
                this.not_success('Registro Guardado')
                this.tipoModal('P',{id_Rol:this.id_rol})
+               Loading.remove()
 
                
              }else{
                this.not_error('A ocurrido un error, intente nuevamente')
                this.tipoModal('P',{id_Rol:this.id_rol})
+               Loading.remove()
 
               }
          })
@@ -232,6 +248,8 @@ private formBuilder : FormBuilder
             this.not_warning('Llene los campos requeridos')
             this.error = true
             this.markAllFieldsAsTouched(this.formConsulta2);
+            Loading.remove()
+
           }
         break;
 
@@ -243,10 +261,14 @@ private formBuilder : FormBuilder
               if (info == true) {
                this.not_success('Registro Actualizado')
                this.tipoModal('P',{id_Rol:this.id_rol})
+               Loading.remove()
+
 
               }else{
                this.not_error('A ocurrido un error, intente nuevamente')
                this.tipoModal('P',{id_Rol:this.id_rol})
+               Loading.remove()
+
               }
          })
       
@@ -254,6 +276,8 @@ private formBuilder : FormBuilder
             this.not_warning('Llene los campos requeridos')
             this.error = true
             this.markAllFieldsAsTouched(this.formConsulta);
+            Loading.remove()
+
           }
           break;
     

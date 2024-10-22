@@ -56,6 +56,7 @@ export class LoginComponent {
 
       
       login() {
+        Loading.hourglass()
         if (this.formConsulta.valid) {
           console.log(this.formConsulta.value);
       
@@ -67,16 +68,18 @@ export class LoginComponent {
       
               this.not_success('Bienvenido (a)');
               this.Router.navigate(['layout', 'inicio1'], { replaceUrl: true });
-
+              Loading.remove()
             },
             (error) => {
               if (error['status'] == 404) {
                 this.not_warning(error['error']);
+                Loading.remove()
               }
             }
           );
         } else {
           this.not_warning('Campos Requeridos');
+          Loading.remove()
         }
       }
       

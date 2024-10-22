@@ -13,17 +13,88 @@
     </button>
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <!-- <button class="p-link layout-topbar-button">
-            <i class="pi pi-calendar"></i>
-            <span>Calendar</span>
-        </button> -->
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-user"></i>
-            <span>Perfil</span>
+        <div class="flex flex-row flex-wrap" *ngIf="!isMobile()">
+            <div class="flex align-items-center justify-content-start w-15rem h-4rem font-bold border-round m-2 -ml-6 text-800 font-bold border-bluegray-50	 border-3" >
+              
+                    <div class="flex align-items-center h-4rem font-bold text-white border-round m-2 ">
+
+                        <div class="flex flex-column card-container green-container">
+                            <div class="flex align-items-center font-bold border-round">
+                                <span class="pl-3 uppercase">{{info.nombre}}</span> 
+                            </div>
+                            <!-- <div class="flex align-items-center font-bold border-round">
+                                <span class="pl-3 uppercase text-xs">{{info.usuario}}</span> 
+                            </div> -->
+                        </div>
+                        <!-- <span class="pl-3 uppercase">{{info.nombre}}</span> -->
+                    </div>
+          
+            </div>
+            <!-- <div class="flex align-items-center justify-content-center h-4rem font-bold text-white -pl-8 border-round mt-2 bg-blue-200"> -->
+                <button class="p-link layout-topbar-button bg-white flex align-items-center justify-content-center mt-4 -ml-5" (click)="VerPerfil()">
+                    <i class="pi pi-user text-gray-900"></i>
+                    <span>Actualizar Contraseña</span>
+                </button>
+            <!-- </div> -->
+        </div>
+
+
+        <button class="p-link layout-topbar-button"  *ngIf="isMobile()">
+            <!-- <span class="pl-3 uppercase">{{info.nombre}}</span> -->
+            <button class="p-link layout-topbar-button  flex align-items-center justify-content-center" (click)="VerPerfil()">
+                <i class="pi pi-user"></i>
+                <span>Actualizar Contraseña</span>
+            </button>
         </button>
-        <!-- <button class="p-link layout-topbar-button" [routerLink]="'/auth/inicio'">
-            <i class="pi pi-sign-out"></i>
-            <span>Cerrar Sesión</span>
-        </button> -->
     </div>
 </div>
+
+
+
+<p-dialog [(visible)]="display" [style]="{width: '500px'}" [modal]="true" styleClass="p-fluid">
+	<p-header>Actualizar Contraseña</p-header>
+	<br>
+    <ng-template pTemplate="content">
+
+
+
+		<form [formGroup]="formConsulta1">
+
+
+            <!-- <div class="field">
+				<label class="labelTitulos" for="name">Usuario<span class="requerido">*</span></label>
+                <input type="text" pInputText formControlName="usuario" disabled />
+				<small class="p-error" *ngIf="formConsulta1.get('usuario').hasError('required') && formConsulta1.get('usuario').touched">campo requerido.</small>
+			</div>
+			<div class="field">
+				<label class="labelTitulos" for="name">Nombre<span class="requerido">*</span></label>
+                <input type="text" pInputText disabled="true" formControlName="nombre" />
+				<small class="p-error" *ngIf="formConsulta1.get('nombre').hasError('required') && formConsulta1.get('nombre').touched">campo requerido.</small>
+			</div> -->
+
+            <div class="field">
+				<label class="labelTitulos" for="name">Contraseña<span class="requerido">*</span></label>
+                <input type="text" pInputText formControlName="contraseña" />
+				<small class="p-error" *ngIf="formConsulta1.get('contraseña').hasError('required') && formConsulta1.get('contraseña').touched">campo requerido.</small>
+			</div>
+            <div class="field">
+				<label class="labelTitulos" for="name">Confirmar Contraseña<span class="requerido">*</span></label>
+                <input type="text" pInputText formControlName="confirmacionContraseña" (keyup)="confirmacion()" />
+				<small class="p-error" *ngIf="formConsulta1.get('confirmacionContraseña').hasError('required') && formConsulta1.get('confirmacionContraseña').touched">campo requerido.</small>
+                <small class="block text-center text-sm" *ngIf="validaPassword">**Contraseñas no coinciden**</small>
+			</div>
+
+
+		</form>
+        
+		<br>
+		<br>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="cerrar()"></button>
+        <button pButton pRipple label="Actualizar" icon="pi pi-send" class="p-button-text" [disabled]="formConsulta1.invalid" (click)="actualizar()"></button>
+
+    </ng-template>
+</p-dialog>
+

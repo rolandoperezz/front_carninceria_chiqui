@@ -13,6 +13,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductosComponent } from './productos.component';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   declarations: [ProductosComponent],
@@ -28,7 +29,8 @@ import { ProductosComponent } from './productos.component';
     TabViewModule,
     DropdownModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FileUploadModule
   ]
 })
 export class ProductosModule { }

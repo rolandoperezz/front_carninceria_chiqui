@@ -1,1 +1,131 @@
-<p>productos works!</p>
+<div class="grid">
+	<div class="col-12">
+		
+	<p-card>
+		<section class="hero is-small ">
+			<div class="parent1">
+				<span class="text-4xl text-center">Catalogo Productos</span>
+			</div>
+		  </section>
+		  <br>
+		<p-table #dt1 [value]="datos" styleClass="p-datatable-striped" responsiveLayout="scroll" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" currentPageReportTemplate="Se muestra {first} de {last} de {totalRecords} datos" [globalFilterFields]="['id_Rol','descripcion']">
+			<ng-template pTemplate="caption">
+				<div class="flex">
+					<p-button icon="pi pi-plus-circle" severity="success" (click)="tipoModal('A','')"></p-button>
+					<span class="p-input-icon-left ml-auto">
+						<i class="pi pi-search"></i>
+						<input pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')"  placeholder="Buscar" />
+					</span>
+				</div>
+			</ng-template>
+			<ng-template  pTemplate="header">
+				<tr>
+				  <th [style]="{'font-size': '13px', 'text-align': 'center'}">No.</th>
+					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Categoria</th>
+					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Descripción</th>
+					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Editar</th>
+
+				</tr>
+			</ng-template>
+			<ng-template  pTemplate="body" let-product let-rowIndex="rowIndex">
+				<tr>
+				  <td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{rowIndex+1}}</td>
+					<td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{product.id_Categoria}}</td>
+					<td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{product.descripcion}}</td>
+					<td [style]="{'font-size': '13px', 'text-align': 'center'}"><button  (click)="tipoModal('E',product)" pButton type="button" icon="pi pi-pencil"  class="p-button-info is-small" iconPos="left" ></button></td>
+
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="emptymessage">
+				<tr>
+				  <td colspan="5">No Hay Información.</td>
+				</tr>
+			  </ng-template>
+		</p-table>
+	</p-card>
+
+		</div>
+
+
+	<p-dialog [header]="tituloModal" 
+	[modal]="true" 
+	[(visible)]="displayModal" 
+	[style]="{ width: '35rem' }" >
+	<div *ngIf="tipo_modal == 'A' || tipo_modal == 'E'" class="flex  flex-column gap-3">
+        <form [formGroup]="formConsulta" (submit)="guardar()">
+                <div class="">
+					<div class="">
+						<label  class="font-semibold w-6rem">Categoria:</label>
+						<div class="select is-fullwidth is-info" [ngClass]="{'alertaBoton': formConsulta.controls['id_Categoria'].invalid && (formConsulta.controls['id_Categoria'].dirty || formConsulta.controls['id_Categoria'].touched)}">
+							<select id="select2" formControlName="id_Categoria" >
+								<option value="" selected disabled>"Seleccione."</option>
+								<option *ngFor="let info of cat_categorias, let i = index" value="{{info.id_Categoria}}">{{info.descripcion}}</option>
+							</select>
+						</div>
+						<span *ngIf="formConsulta.controls['id_Categoria'].invalid && (formConsulta.controls['id_Categoria'].dirty || formConsulta.controls['id_Categoria'].touched)" style="font-size: 14px; color: red;">Campo requerido.</span>
+					</div> 
+                </div>
+
+				<div class="">
+                    <label  class="font-semibold w-6rem">Nombre Producto:</label>
+                    <input formControlName="descripcion" [ngClass]="{'alertaBoton': formConsulta.controls['descripcion'].invalid && (formConsulta.controls['descripcion'].dirty || formConsulta.controls['descripcion'].touched)}"  placeholder="Descripción" class="input is-info Bts1" type="text"  >
+                    <span *ngIf="formConsulta.controls['descripcion'].invalid && (formConsulta.controls['descripcion'].dirty || formConsulta.controls['descripcion'].touched)" style="font-size: 14px; color: red;">Campo requerido.</span>
+                </div> 
+                <div class="">
+                    <label  class="font-semibold w-6rem">Estado:</label>
+					<div class="select is-fullwidth is-info" [ngClass]="{'alertaBoton': formConsulta.controls['id_Estado'].invalid && (formConsulta.controls['id_Estado'].dirty || formConsulta.controls['id_Estado'].touched)}">
+						<select id="select2" formControlName="id_Estado" >
+							<option value="" selected disabled>"Seleccione."</option>
+							<option *ngFor="let info of cat_categorias, let i = index" value="{{info.id_Estado}}">{{info.descripcion}}</option>
+						</select>
+					</div>
+					<span *ngIf="formConsulta.controls['id_Estado'].invalid && (formConsulta.controls['id_Estado'].dirty || formConsulta.controls['id_Estado'].touched)" style="font-size: 14px; color: red;">Campo requerido.</span>
+                </div> 
+                <div class="">
+                    <label  class="font-semibold w-6rem">Imagen:</label>
+                    
+					<p-fileUpload 
+					(onSelect)="onFileSelected($event)"
+					name="files[]"
+					[customUpload]="true"
+					[multiple]="false" 
+					accept="image/*" 
+					maxFileSize="1000000">
+					<ng-template pTemplate="header" let-files let-chooseCallback="chooseCallback" let-clearCallback="clearCallback" let-uploadCallback="uploadCallback">
+					  <div class="flex flex-wrap justify-content-between align-items-center flex-1 gap-2">
+						  <div class="flex gap-2">
+							  <p-button (onClick)="choose($event, chooseCallback)" icon="pi pi-images" [rounded]="true" [outlined]="true" />
+							  <!-- <p-button (onClick)="uploadEvent(uploadCallback)" icon="pi pi-cloud-upload" [rounded]="true" [outlined]="true" severity="success" [disabled]="!files || files.length === 0" /> -->
+							  <!-- <p-button (onClick)="clearCallback()" icon="pi pi-times" [rounded]="true" [outlined]="true" severity="danger" [disabled]="!files || files.length === 0" /> -->
+						  </div>
+						  <!-- <p-progressBar [value]="totalSizePercent" [showValue]="false" styleClass="md:w-20rem h-1rem w-full md:ml-auto" [ngClass]="{ 'exceeded-progress-bar': totalSizePercent > 100 }">
+							  <span class="white-space-nowrap">{{ totalSize }}B / 1Mb</span>
+						  </p-progressBar> -->
+					  </div>
+				  </ng-template>
+						<ng-template pTemplate="content">
+							<!-- <ul *ngIf="uploadedFiles.length">
+								<li *ngFor="let file of uploadedFiles">
+									{{ file.name }} 
+								</li>
+							</ul> -->
+						</ng-template>
+					 </p-fileUpload>
+				  <div align="center" *ngIf="validaFoto == true">
+					<img [src]="urlFoto"  [style]="{width: '30%'}" style="border: 3px solid #3683fe" >
+					<br>
+					<p-button icon="pi pi-times" label="Eliminar Foto"  (click)="not_seguro()" pAutoFocus [autofocus]="true"  severity="danger"></p-button>
+				  </div>
+                </div>
+
+                <div class="flex justify-content-end gap-2">
+                    <p-button label="Cancelar" severity="secondary" (click)="modalclose()" />
+                    <p-button label="Guardar" type="submit" severity="success"/>
+                </div>
+        </form>
+    </div>
+
+
+
+    </p-dialog>
+</div>
