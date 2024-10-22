@@ -11,6 +11,11 @@ import { Report } from 'notiflix/build/notiflix-report-aio';
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import { Loading } from 'notiflix';
 
+interface UploadEvent {
+  originalEvent: Event;
+  files: File[];
+}
+
 @Component({
   selector: 'app-productos',
   standalone: false,
@@ -35,14 +40,15 @@ export class ProductosComponent {
 
   uploadedFiles: any[] = [];
   //valida existe foto
-  validaFoto: boolean
+  validaFoto: boolean = false
   datosFoto: any
   urlFoto:any
 
   constructor(    private Router : Router,
     private ConsultaService : ConsultasService,
 private ActivatedRoute : ActivatedRoute,
-private formBuilder : FormBuilder
+private formBuilder : FormBuilder,
+private primengConfig: PrimeNGConfig
 
     ) {
         this.formulario()
