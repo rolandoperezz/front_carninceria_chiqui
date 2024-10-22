@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 export class ConsultasService {
 
   //urlback="https://localhost:7237/"
-  urlback="http://apiCarniceria.somee.com/"
+  urlback="https://apiCarniceria.somee.com/"
 
   constructor(private http: HttpClient) { }
   
