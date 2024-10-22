@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 })
 export class ConsultasService {
 
-  urlback="https://localhost:7237/"
-  // urlback="http://www.cchiqui.somee.com/"
+  //urlback="https://localhost:7237/"
+  urlback="http://apiCarniceria.somee.com/"
 
   constructor(private http: HttpClient) { }
   
