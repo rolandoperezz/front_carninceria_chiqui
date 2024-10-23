@@ -1,62 +1,106 @@
-import { Component, OnInit, VERSION } from '@angular/core';
-import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
-import { NgClass } from '@angular/common';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validator,FormBuilder,Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConsultasService } from 'src/app/services/consultas.service';
-import { PrimeNGConfig } from 'primeng/api';
-import * as moment from 'moment';
-moment.locale('us');
-import { Report } from 'notiflix/build/notiflix-report-aio';
-import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
+
 @Component({
   selector: 'app-tienda',
-  standalone: false,
   templateUrl: './tienda.component.html',
-  styleUrl: './tienda.component.scss'
+  styleUrls: ['./tienda.component.scss']
 })
-export class TiendaComponent {
+export class TiendaComponent implements OnInit {
 
-  formConsulta! : FormGroup
-  error: boolean = false
-  datos: any
-cat_estados:any
-  tituloModal: any
-  tipo_modal: any
-  displayModal: boolean = false;
+  searchTerm: string = '';
+  currentPage = 1;
+  itemsPerPage = 5;
 
-  constructor(    private Router : Router,
-    private ConsultaService : ConsultasService,
-private ActivatedRoute : ActivatedRoute,
-private formBuilder : FormBuilder
+ // Definir productos (28 productos)
+ products = [
+  { name: 'Carne de res', price: 50.0, weight: '1 Lb', image: 'assets/layout/images/carne_res.jpg' },
+  { name: 'Pollo fresco', price: 25.0, weight: '1 Lb', image: 'assets/layout/images/pollo_fresco.jpg' },
+  { name: 'Costillas de cerdo', price: 45.0, weight: '1 Lb', image: 'assets/layout/images/costillas_cerdo.jpg' },
+  { name: 'Carne de res', price: 50.0, weight: '1 Lb', image: 'assets/layout/images/carne_res.jpg' },
+  { name: 'Pollo fresco', price: 25.0, weight: '1 Lb', image: 'assets/layout/images/pollo_fresco.jpg' },
+  { name: 'Costillas de cerdo', price: 45.0, weight: '1 Lb', image: 'assets/layout/images/costillas_cerdo.jpg' },
+  { name: 'Carne de res', price: 50.0, weight: '1 Lb', image: 'assets/layout/images/carne_res.jpg' },
+  { name: 'Pollo fresco', price: 25.0, weight: '1 Lb', image: 'assets/layout/images/pollo_fresco.jpg' },
+  { name: 'Costillas de cerdo', price: 45.0, weight: '1 Lb', image: 'assets/layout/images/costillas_cerdo.jpg' },
+  { name: 'Carne de res', price: 50.0, weight: '1 Lb', image: 'assets/layout/images/carne_res.jpg' },
+  { name: 'Pollo fresco', price: 25.0, weight: '1 Lb', image: 'assets/layout/images/pollo_fresco.jpg' },
+  { name: 'Costillas de cerdo', price: 45.0, weight: '1 Lb', image: 'assets/layout/images/costillas_cerdo.jpg' },
+  { name: 'Carne de res', price: 50.0, weight: '1 Lb', image: 'assets/layout/images/carne_res.jpg' },
+  { name: 'Pollo fresco', price: 25.0, weight: '1 Lb', image: 'assets/layout/images/pollo_fresco.jpg' },
+  { name: 'Costillas de cerdo', price: 45.0, weight: '1 Lb', image: 'assets/layout/images/costillas_cerdo.jpg' },
+  { name: 'Carne de res', price: 50.0, weight: '1 Lb', image: 'assets/layout/images/carne_res.jpg' },
+  { name: 'Pollo fresco', price: 25.0, weight: '1 Lb', image: 'assets/layout/images/pollo_fresco.jpg' },
+  { name: 'Costillas de cerdo', price: 45.0, weight: '1 Lb', image: 'assets/layout/images/costillas_cerdo.jpg' },
+  { name: 'Carne de res', price: 50.0, weight: '1 Lb', image: 'assets/layout/images/carne_res.jpg' },
+  { name: 'Pollo fresco', price: 25.0, weight: '1 Lb', image: 'assets/layout/images/pollo_fresco.jpg' },
+  { name: 'Costillas de cerdo', price: 45.0, weight: '1 Lb', image: 'assets/layout/images/costillas_cerdo.jpg' },
+  { name: 'Carne de res', price: 50.0, weight: '1 Lb', image: 'assets/layout/images/carne_res.jpg' },
+  { name: 'Pollo fresco', price: 25.0, weight: '1 Lb', image: 'assets/layout/images/pollo_fresco.jpg' },
+  { name: 'Costillas de cerdo', price: 45.0, weight: '1 Lb', image: 'assets/layout/images/costillas_cerdo.jpg' },
+  { name: 'Carne de res', price: 50.0, weight: '1 Lb', image: 'assets/layout/images/carne_res.jpg' },
+  { name: 'Pollo fresco', price: 25.0, weight: '1 Lb', image: 'assets/layout/images/pollo_fresco.jpg' },
+  { name: 'Costillas de cerdo', price: 45.0, weight: '1 Lb', image: 'assets/layout/images/costillas_cerdo.jpg' },
+  { name: 'Carne de res', price: 50.0, weight: '1 Lb', image: 'assets/layout/images/carne_res.jpg' }
+];
 
-    ) {
-        // this.formulario()
-     }
+  filteredProducts: any[] = [...this.products]; // Inicialización correcta de productos filtrados
+
+  constructor(
+    private Router: Router,
+    private ConsultaService: ConsultasService
+  ) {}
 
   ngOnInit(): void {
-    // Escucha el evento popstate cuando el usuario navega hacia atrás
     window.addEventListener('popstate', this.handlePopState.bind(this));
-
     if (!this.ConsultaService.isAuthenticated()) {
-      // Navega a 'auth/inicio' reemplazando la URL actual
       this.Router.navigate(['auth', 'inicio'], { replaceUrl: true });
     }
-
   }
 
-
-
   ngOnDestroy(): void {
-    // Elimina el listener cuando el componente se destruye
     window.removeEventListener('popstate', this.handlePopState.bind(this));
   }
 
   handlePopState(event: any): void {
-    console.log("Navegando hacia atrás en el historial.");
     this.ConsultaService.logout();
-    console.log("Token eliminado del localStorage.");
-    // Navega a 'auth/inicio' reemplazando la URL actual
     this.Router.navigate(['auth', 'inicio'], { replaceUrl: true });
+  }
+
+  // Búsqueda de productos
+  searchProducts(term: string): void {
+    this.filteredProducts = this.products.filter(product =>
+      product.name.toLowerCase().includes(term.toLowerCase())
+    );
+    this.currentPage = 1;
+  }
+
+  // Obtener productos paginados
+  get paginatedProducts() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredProducts.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  // Cambiar de página
+  changePage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
+  }
+
+  // Cambiar la cantidad de productos por página
+  changeItemsPerPage(value: string): void {
+    this.itemsPerPage = +value;
+    this.currentPage = 1;
+  }
+
+  // Total de páginas
+  get totalPages(): number {
+    return Math.ceil(this.filteredProducts.length / this.itemsPerPage);
+  }
+
+  get totalPagesArray(): number[] {
+    return Array(this.totalPages).fill(0).map((x, i) => i + 1);
   }
 }

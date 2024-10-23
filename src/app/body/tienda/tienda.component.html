@@ -1,1 +1,46 @@
-<p>tienda works!</p>
+<!-- Barra de búsqueda -->
+<div class="search-container" style="display: flex; justify-content: flex-start; margin-bottom: 20px;">
+    <input
+      type="text"
+      class="search-bar"
+      placeholder="Buscar productos..."
+      [(ngModel)]="searchTerm"
+      (input)="searchProducts(searchTerm)"
+      style="width: 50%;"
+    />
+  </div>
+  
+  <!-- Productos mostrados en grid -->
+  <div class="product-grid">
+    <div *ngFor="let product of paginatedProducts" class="product-card">
+      <img [src]="product.image" alt="{{product.name}}" class="product-image">
+      <h3>{{product.name}}</h3>
+      <p>Q{{product.price}}</p>
+      <p>{{product.weight}}</p>
+      <button class="add-button">+ Agregar</button>
+    </div>
+  </div>
+  
+  <!-- Paginación y selector de productos por página -->
+  <div class="pagination-container">
+    <div class="pagination">
+      <button (click)="changePage(1)" [disabled]="currentPage === 1">« Primera pág</button>
+      <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">‹</button>
+      <button *ngFor="let page of totalPagesArray" 
+              (click)="changePage(page)" 
+              [ngClass]="{'active-page': page === currentPage}">
+        {{ page }}
+      </button>
+      <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">›</button>
+      <button (click)="changePage(totalPages)" [disabled]="currentPage === totalPages">Última pág »</button>
+    </div>
+  
+    <!-- Selector de productos por página -->
+    <div class="items-per-page">
+      <label for="itemsPerPage" style="color:white; margin-right: 10px;">Productos por página</label>
+      <select id="itemsPerPage" [(ngModel)]="itemsPerPage" (change)="changeItemsPerPage($event.target.value)">
+        <option *ngFor="let option of [5, 10, 15, 20]" [value]="option">{{ option }}</option>
+      </select>
+    </div>
+  </div>
+  
