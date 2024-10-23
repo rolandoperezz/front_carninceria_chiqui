@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductosComponent } from './productos.component';
 import { FileUploadModule } from 'primeng/fileupload';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @NgModule({
   declarations: [ProductosComponent],
@@ -30,7 +32,9 @@ import { FileUploadModule } from 'primeng/fileupload';
     DropdownModule,
     FormsModule,
     ReactiveFormsModule,
-    FileUploadModule
+    FileUploadModule,
+    InputGroupModule,
+    InputGroupAddonModule
   ]
 })
 export class ProductosModule { }
