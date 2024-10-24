@@ -74,49 +74,37 @@
                 <div class="">
                     <label  class="font-semibold w-6rem">Estado:</label>
 					<div class="select is-fullwidth is-info" [ngClass]="{'alertaBoton': formConsulta.controls['id_Estado'].invalid && (formConsulta.controls['id_Estado'].dirty || formConsulta.controls['id_Estado'].touched)}">
-						<select id="select2" formControlName="id_Estado" >
+						<select id="select1" formControlName="id_Estado" >
 							<option value="" selected disabled>"Seleccione."</option>
 							<option *ngFor="let info of cat_categorias, let i = index" value="{{info.id_Estado}}">{{info.descripcion}}</option>
 						</select>
 					</div>
 					<span *ngIf="formConsulta.controls['id_Estado'].invalid && (formConsulta.controls['id_Estado'].dirty || formConsulta.controls['id_Estado'].touched)" style="font-size: 14px; color: red;">Campo requerido.</span>
                 </div> 
+				<div class="">
+					<label  class="font-semibold w-6rem">Imagen:</label>
+					<br>
+					<input id="upload" type="file" name="files" accept="image/*" (change)="onFileSelected($event)">
+				</div>
+				  <div align="center" *ngIf="foto">
+					<br>
+					<img [src]="foto"  [style]="{width: '30%'}" style="border: 3px solid #3683fe" >
+					<br>
+					<p-button icon="pi pi-times" label="Eliminar Foto"  (click)="not_seguro()" pAutoFocus [autofocus]="true"  severity="danger"></p-button>
+				  </div>
+				  
+					<br>
+	
+	
+					<div class="flex justify-content-end gap-2">
+						<p-button label="Cancelar" severity="secondary" (click)="modalclose()" />
+						<p-button label="Guardar" type="submit" severity="success"/>
+					</div>
 			</div>
 			<br>
-			<div class="" *ngIf="validaFoto == false">
-				<p-fileUpload 
-					name="demo[]" 
-					url="https://www.primefaces.org/cdn/api/upload.php" 
-					(onUpload)="onUpload($event)" 
-					[multiple]="true" 
-					accept="image/*" 
-					maxFileSize="1000000">
-						<ng-template pTemplate="content">
-							<ul *ngIf="uploadedFiles.length">
-								<li *ngFor="let file of uploadedFiles">
-									{{ file.name }} - {{ file.size }} bytes
-								</li>
-							</ul>
-						</ng-template>
-				</p-fileUpload>
-			  </div>
-			  <div align="center" *ngIf="validaFoto == true">
-				<img [src]="urlFoto"  [style]="{width: '30%'}" style="border: 3px solid #3683fe" >
-				<br>
-				<p-button icon="pi pi-times" label="Eliminar Foto"  (click)="not_seguro()" pAutoFocus [autofocus]="true"  severity="danger"></p-button>
-			  </div>
-              
-				<br>
-
-
-                <div class="flex justify-content-end gap-2">
-                    <p-button label="Cancelar" severity="secondary" (click)="modalclose()" />
-                    <p-button label="Guardar" type="submit" severity="success"/>
-                </div>
+			
         </form>
     </div>
-
-
 
     </p-dialog>
 </div>

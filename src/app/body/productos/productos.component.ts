@@ -44,6 +44,13 @@ export class ProductosComponent {
   datosFoto: any
   urlFoto:any
 
+  files = [];
+
+  totalSize : number = 0;
+
+  totalSizePercent : number = 0;
+  foto: string;
+
   constructor(    private Router : Router,
     private ConsultaService : ConsultasService,
 private ActivatedRoute : ActivatedRoute,
@@ -54,6 +61,8 @@ private primengConfig: PrimeNGConfig
         this.formulario()
 
      }
+
+
 
   ngOnInit(): void {
     // Escucha el evento popstate cuando el usuario navega hacia atrás
@@ -82,9 +91,7 @@ private primengConfig: PrimeNGConfig
     this.Router.navigate(['auth', 'inicio'], { replaceUrl: true });
   }
 
-
-
-
+ 
   consProductos(){
     this.ConsultaService.consProductos().subscribe(info=>{
       console.log(info)
@@ -141,6 +148,13 @@ private primengConfig: PrimeNGConfig
           this.tituloModal = 'Editar Producto'
         this.showModalDialog();
         this.formConsulta.patchValue(valor)
+        this.foto = valor.foto
+        break;
+
+        case 'V':
+          this.tituloModal = 'Ver Producto'
+        this.showModalDialog();
+
         break;
 
       default:
@@ -227,59 +241,54 @@ private markAllFieldsAsTouched(formGroup: FormGroup) {
   });
 }
 
-not_seguro(){
-  Confirm.show(
-    'Importante',
-    'Esta seguro que desea eliminar la foto y subir una nueva?',
-    'Aceptar',
-    'Cancelar',
-    () => {
-      // this.EliminarDocumento()
-    },
-    () => {
+  not_seguro(){
+    Confirm.show(
+      'Importante',
+      'Esta seguro que desea eliminar la foto y subir una nueva?',
+      'Aceptar',
+      'Cancelar',
+      () => {
+        this.deleteFile()
+      },
+      () => {
 
-    },
-    {
-    },
-    );
-}
+      },
+      {
+      },
+      );
+  }
 
-choose(event, callback) {
-  callback();
-}
+  choose(event, callback) {
+    callback();
+  }
 
 
-onFileSelected(event: any) {
-  // console.log(event)
-  const files: FileList = event.currentFiles;
+  onFileSelected(event: any) {
+    const file = event.target.files[0]; // Obtiene el primer archivo seleccionado del input
+  
+    if (file && file.type.startsWith('image/')) { // Verifica si el archivo es una imagen
+      const reader = new FileReader();
+      
+      reader.onload = () => {
+        this.foto = reader.result as string; // Guarda la imagen en base64 en la variable 'foto'
+        this.formConsulta.controls['foto'].setValue(this.foto)
+      };
+  
+      reader.readAsDataURL(file); // Lee el archivo como un Data URL (base64)
+      this.validaFoto = true
+    } else {
+      console.error('El archivo seleccionado no es una imagen válida');
+    }
+  }
 
-  // Convierte el FileList a un array
-  const fileArray = Array.from(files);
 
-  // console.log(fileArray)
 
-  // Usa forEach en el array convertido
-  fileArray.forEach(file => {
-    // console.log('Archivo seleccionado:', file.name);
-    // Agrega los archivos al array si es necesario
-    this.uploadedFiles.push(file);
-  });
-  // console.log(this.uploadedFiles)
-}
-
-// deleteFile(fileName:string){
-//   this.ConsultaService.EliminarDocumento(fileName).subscribe(info => {
-//     // console.log(info);
-//     if (info['estado'] != false) {
-//       this.not_success('Foto Eliminada')
-//     } else {
-//       this.not_error('A ocurrido un error, intente nuevamente')
-//     }
-//   }, error => {
-//     // this.not_error('No se eliminaron');
-//   });
-
-// }
+  deleteFile(){
+    const inputElement = document.getElementById('upload') as HTMLInputElement;
+    inputElement.value = ''; // Esto vacía el valor del input
+    this.foto = ''; // Limpia la variable 'foto'
+    this.formConsulta.controls['foto'].setValue('')
+  }
 
 
   not_warning(text:any){

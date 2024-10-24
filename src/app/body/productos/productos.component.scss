@@ -20,3 +20,28 @@
     .alertaBoton{
     border-color: red;
     }
+
+
+    .custom-file-upload {
+        background-color: #f0f0f0; /* Color de fondo personalizado */
+        border-radius: 5px;
+        padding: 10px;
+      }
+      
+      .custom-file-upload .p-fileupload-buttonbar {
+        display: none; /* Ocultar la barra de botones predeterminada */
+      }
+      
+      .custom-file-upload .p-fileupload-content {
+        background-color: #ffffff; /* Fondo del área de contenido */
+      }
+      
+      .custom-file-upload .p-fileupload-choose {
+        background-color: #3683fe; /* Color del botón 'Elige una imagen' */
+        color: white;
+        border-radius: 3px;
+      }
+      
+      .custom-file-upload .p-fileupload .p-button {
+        background-color: #3683fe; /* Color del botón personalizado */
+      }
