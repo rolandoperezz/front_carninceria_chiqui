@@ -63,7 +63,7 @@ private primengConfig: PrimeNGConfig
       // Navega a 'auth/inicio' reemplazando la URL actual
       this.Router.navigate(['auth', 'inicio'], { replaceUrl: true });
     }
-    this.consProve()
+    this.consProductos()
     this.consCate()
   }
 
@@ -85,8 +85,8 @@ private primengConfig: PrimeNGConfig
 
 
 
-  consProve(){
-    this.ConsultaService.consProveedores().subscribe(info=>{
+  consProductos(){
+    this.ConsultaService.consProductos().subscribe(info=>{
       console.log(info)
       this.datos = info
     })
@@ -111,7 +111,7 @@ private primengConfig: PrimeNGConfig
       id_Categoria: ['', Validators.required], 
       descripcion: ['', Validators.required ],      // Valor inicial y validador requerido
       id_Estado: ['', ],
-      imagen: ['',],
+      foto: ['',],
     });
   }
 
@@ -157,18 +157,18 @@ private primengConfig: PrimeNGConfig
 
         if (this.formConsulta.valid) {
 
-            this.formConsulta.removeControl('id_Proveedor')
-            this.ConsultaService.insProveedores(this.formConsulta.value).subscribe(info=>{
+            this.formConsulta.removeControl('id_Producto')
+            this.ConsultaService.insProductos(this.formConsulta.value).subscribe(info=>{
               // console.log(info)
               if (info === true) {
                this.not_success('Registro Guardado')
                this.modalclose()
-                this.consProve()
+                this.consProductos()
                 Loading.remove()
              }else{
                this.modalclose()
                this.not_error('A ocurrido un error, intente nuevamente')
-               this.consProve()
+               this.consProductos()
                Loading.remove()
              }
          })
@@ -185,18 +185,18 @@ private primengConfig: PrimeNGConfig
         break;
       case 'E':
         if (this.formConsulta.valid) {
-          this.ConsultaService.updateProveedores(this.formConsulta.value).subscribe(info=>{
+          this.ConsultaService.updateProductos(this.formConsulta.value).subscribe(info=>{
             // console.log(info)
             if (info) {
              this.not_success('Registro Actualizado')
              this.modalclose()
-               this.consProve()
+               this.consProductos()
                Loading.remove()
 
            }else{
              this.modalclose()
              this.not_error('A ocurrido un error, intente nuevamente')
-             this.consProve()
+             this.consProductos()
              Loading.remove()
 
            }

@@ -154,4 +154,22 @@ export class ConsultasService {
       return this.http.put(`${this.urlback}CategoriaProducto/ActualizarCategoria`,body)
     }
 
+
+    //Productos
+    insProductos(body:any){
+      return this.http.post(`${this.urlback}CatalogoaProducto/NuevoProducto`,body)
+    }
+    consProductos(){
+      return this.http.get(`${this.urlback}CatalogoaProducto/ListProductos`)
+    }
+  
+    updateProductos(body:any){
+      return this.http.put(`${this.urlback}CatalogoaProducto/ActualizarProducto`,body)
+    }
+  
+    deleteProductos(body:any){
+      return this.http.put(`${this.urlback}CatalogoaProducto/EliminarProducto`,body)
+    }
+  
+
 }
