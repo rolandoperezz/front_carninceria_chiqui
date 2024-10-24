@@ -13,6 +13,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TiendaComponent } from './tienda.component';
+import { DataViewModule } from 'primeng/dataview';
+import { TagModule } from 'primeng/tag';
 
 @NgModule({
   declarations: [TiendaComponent],
@@ -28,7 +30,9 @@ import { TiendaComponent } from './tienda.component';
     TabViewModule,
     DropdownModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DataViewModule,
+    TagModule
   ]
 })
 export class TiendaModule { }
