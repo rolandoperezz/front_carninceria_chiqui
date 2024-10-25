@@ -207,4 +207,13 @@ export class ConsultasService {
       return this.http.delete(`${this.urlback}OrdenDetalle/EliminarOrdenDetalle?id=${body}`)
     }
 
+
+    //Inventario
+    consInventario(){
+      return this.http.get(`${this.urlback}InventarioProducto/ListInventarioC`)
+    }
+    updateInventario(body:any){
+      return this.http.put(`${this.urlback}InventarioProducto/ActualizarInventario`,body)
+    }
+
 }

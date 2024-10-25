@@ -1,1 +1,140 @@
-<p>inventario works!</p>
+<div class="grid">
+	<div class="col-12">
+		
+	<p-card>
+		<section class="hero is-small ">
+			<div class="parent1">
+				<span class="text-4xl text-center">Inventario Productos</span>
+			</div>
+		  </section>
+		  <br>
+		<p-table #dt1 [value]="datos" styleClass="p-datatable-striped" responsiveLayout="scroll" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" currentPageReportTemplate="Se muestra {first} de {last} de {totalRecords} datos" [globalFilterFields]="['id_Rol','descripcion']">
+			<ng-template pTemplate="caption">
+				<div class="flex">
+					<!-- <p-button icon="pi pi-plus-circle" severity="success" (click)="tipoModal('A','')"></p-button> -->
+					<span class="p-input-icon-left ml-auto">
+						<i class="pi pi-search"></i>
+						<input pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')"  placeholder="Buscar" />
+					</span>
+				</div>
+			</ng-template>
+			<ng-template  pTemplate="header">
+				<tr>
+				  <th [style]="{'font-size': '13px', 'text-align': 'center'}">No.</th>
+					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Descripcion</th>
+					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Precio de Compra</th>
+                    <th [style]="{'font-size': '13px', 'text-align': 'center'}">Precio de Venta</th>
+                    <th [style]="{'font-size': '13px', 'text-align': 'center'}">Ver</th>
+					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Editar</th>
+				</tr>
+			</ng-template>
+			<ng-template  pTemplate="body" let-product let-rowIndex="rowIndex">
+				<tr>
+				  <td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{rowIndex+1}}</td>
+					<td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{product.producto}}</td>
+                    <td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{product.ultimo_Precio_Compra}}</td>
+					<td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{product.ultimo_Precio_Venta}}</td>
+                    <td [style]="{'font-size': '13px', 'text-align': 'center'}"><button  (click)="tipoModal('V',product)" pButton type="button" icon="pi pi-eye"  class="p-button-secondary is-small" iconPos="left" ></button></td>
+					<td [style]="{'font-size': '13px', 'text-align': 'center'}"><button  (click)="tipoModal('E',product)" pButton type="button" icon="pi pi-pencil"  class="p-button-info is-small" iconPos="left" ></button></td>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="emptymessage">
+				<tr>
+				  <td colspan="5">No Hay Información.</td>
+				</tr>
+			  </ng-template>
+		</p-table>
+	</p-card>
+
+		</div>
+
+
+	<p-dialog [header]="tituloModal" 
+	[modal]="true" 
+	[(visible)]="displayModal" 
+	[style]="{ width: '30rem' }" >
+
+
+    <div *ngIf="tipo_modal=='E'">
+        <form [formGroup]="formConsulta" (submit)="guardar()">
+
+            <div class="flex flex-column gap-3 mb-3">
+                <div>
+                    <label for="precio" class="font-semibold w-6rem">Precio de Venta:</label>
+                    <input id="precio" formControlName="ultimo_Precio_Venta" [ngClass]="{'alertaBoton': formConsulta.controls['ultimo_Precio_Venta'].invalid && (formConsulta.controls['ultimo_Precio_Venta'].dirty || formConsulta.controls['ultimo_Precio_Venta'].touched)}"  placeholder="Precio Venta" class="input is-info " type="number" appUppercase>
+                    <small id="precio-help" *ngIf="formConsulta.controls['ultimo_Precio_Venta'].invalid && (formConsulta.controls['ultimo_Precio_Venta'].dirty || formConsulta.controls['ultimo_Precio_Venta'].touched)" style="font-size: 14px; color: red;">Campo requerido.</small>
+                </div>
+            </div>
+          
+            <div class="flex justify-content-end gap-2">
+                <p-button label="Cancelar" icon="pi pi-times" severity="danger" (click)="modalclose()"  />
+                <p-button label="Guardar" icon="pi pi-send" type="submit" severity="success"/>
+            </div>
+        </form>
+    </div>
+    <div *ngIf="tipo_modal == 'V' ">
+        <table class="table1 is-bordered">
+            <tbody>
+              <tr>
+                <td class="td1" colspan="2">
+                  <div class="celda-contenido">
+                    <span class="titulo">Producto:</span>
+                    <span class="contenido" style="text-transform:uppercase">{{datosVer.producto}}</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="td1" colspan="2">
+                  <div class="celda-contenido">
+                    <span class="titulo">Existencia:</span>
+                    <span class="contenido" style="text-transform:uppercase">{{datosVer.existencia}} lbs.</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="td1" colspan="2">
+                  <div class="celda-contenido">
+                    <span class="titulo">Ultimo Precio Compra:</span>
+                    <span class="contenido" style="text-transform:uppercase">Q.{{datosVer.ultimo_Precio_Compra}}</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="td1"  colspan="2">
+                  <div class="celda-contenido">
+                    <span class="titulo">Ultimo Precio de Venta:</span>
+                    <span class="contenido" style="text-transform:uppercase">Q.{{datosVer.ultimo_Precio_Compra}}</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="td1" colspan="2">
+                  <div class="celda-contenido">
+                    <span class="titulo">Fecha Ultima Compra:</span>
+                    <span class="contenido" style="text-transform:uppercase">{{datosVer.fecha_Ultima_Compra | date:'dd/MM/yyyy'}}</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="td1" colspan="2">
+                  <div class="celda-contenido">
+                    <span class="titulo">Fecha Ultima Venta:</span>
+                    <span class="contenido" style="text-transform:uppercase">{{datosVer.fecha_Ultima_Venta | date:'dd/MM/yyyy'}}</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="td1" colspan="2">
+                  <div class="celda-contenido">
+                    <span class="titulo">Observaciones:</span>
+                    <span class="contenido" style="text-transform:uppercase">{{datosVer.observaciones}}</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+	
+    </p-dialog>
+</div>

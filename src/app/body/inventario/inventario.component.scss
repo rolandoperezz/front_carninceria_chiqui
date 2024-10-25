@@ -1,0 +1,52 @@
+.parent1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.centrar {
+    position: absolute;
+    top: 70px;
+    font-size: 30px;
+    font-weight: bold;
+    font-family:'Arial Narrow Bold', sans-serif;
+
+}
+
+.alertaBoton select {
+    border-color: red;
+    }
+    
+    .alertaBoton{
+    border-color: red;
+    }
+
+
+    .table1 {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      
+      .th1, .td1 {
+        border: 1px solid #ccc;
+        text-align: left;
+        padding: 10px;
+      }
+      
+      /* Estilos para el contenido de la celda */
+      .celda-contenido {
+        display: flex;
+        flex-direction: column; /* Para colocar el título y contenido en columnas */
+      }
+      
+      .titulo {
+        font-weight: bold; /* Estilo del título */
+        // margin-bottom: 1px; /* Espacio entre el título y el contenido */
+        font-size: 16px;
+      }
+      
+      .contenido {
+        color: black; /* Color del contenido */
+        font-size: 14px;
+      }
