@@ -167,9 +167,44 @@ export class ConsultasService {
       return this.http.put(`${this.urlback}CatalogoaProducto/ActualizarProducto`,body)
     }
   
+
     deleteProductos(body:any){
-      return this.http.put(`${this.urlback}CatalogoaProducto/EliminarProducto`,body)
+      return this.http.delete(`${this.urlback}CatalogoaProducto/EliminarProducto?id=${body}`)
+    }
+
+
+    //Orden Compra Enca
+    insCompraEnca(body:any){
+      return this.http.post(`${this.urlback}OrdenCompra/NuevaOrdenCompra`,body)
+    }
+    consCompraEnca(){
+      return this.http.get(`${this.urlback}OrdenCompra/ListOrdenes`)
     }
   
+    updateCompraEnca(body:any){
+      return this.http.put(`${this.urlback}OrdenCompra/ActualizarOrdenCompra`,body)
+    }
+  
+    deleteCompraEnca(body:any){
+      return this.http.delete(`${this.urlback}OrdenCompra/EliminarOrdenCompra?id=${body}`)
+    }
+
+    //Orden Compra Deta
+    insCompraDeta(body:any){
+      return this.http.post(`${this.urlback}OrdenDetalle/NuevaOrdenDetalle`,body)
+    }
+
+    consCompraDeta(body:any){
+      return this.http.get(`${this.urlback}OrdenDetalle/ListDetalle?id=${body}`)
+    }
+  
+    updateCompraDeta(body:any){
+      return this.http.put(`${this.urlback}OrdenDetalle/ActualizarOrdenDetalle`,body)
+    }
+  
+
+    deleteCompraDeta(body:any){
+      return this.http.delete(`${this.urlback}OrdenDetalle/EliminarOrdenDetalle?id=${body}`)
+    }
 
 }

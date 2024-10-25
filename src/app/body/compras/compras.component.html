@@ -4,7 +4,7 @@
 	<p-card>
 		<section class="hero is-small ">
 			<div class="parent1">
-				<span class="text-4xl text-center"> Categoria Productos</span>
+				<span class="text-4xl text-center">Compras</span>
 			</div>
 		  </section>
 		  <br>
@@ -21,8 +21,8 @@
 			<ng-template  pTemplate="header">
 				<tr>
 				  <th [style]="{'font-size': '13px', 'text-align': 'center'}">No.</th>
-					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Categoria</th>
-					<!-- <th [style]="{'font-size': '13px', 'text-align': 'center'}">OBSERVACIONES</th> -->
+					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Descripcion</th>
+					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Detalle</th>
 					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Editar</th>
 				</tr>
 			</ng-template>
@@ -30,7 +30,7 @@
 				<tr>
 				  <td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{rowIndex+1}}</td>
 					<td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{product.descripcion}}</td>
-					<!-- <td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{product.OBSERVACIONES}}</td> -->
+					<td [style]="{'font-size': '13px', 'text-align': 'center'}"><button  (click)="tipoModal('VD',product)" pButton type="button" icon="pi pi-file"  class="p-button-info is-small" iconPos="left" ></button></td>
 					<td [style]="{'font-size': '13px', 'text-align': 'center'}"><button  (click)="tipoModal('E',product)" pButton type="button" icon="pi pi-pencil"  class="p-button-info is-small" iconPos="left" ></button></td>
 				</tr>
 			</ng-template>
@@ -56,16 +56,6 @@
             <label for="descrip" class="font-semibold w-6rem">Descripción</label>
             <input formControlName="descripcion" [ngClass]="{'alertaBoton': formConsulta.controls['descripcion'].invalid && (formConsulta.controls['descripcion'].dirty || formConsulta.controls['descripcion'].touched)}" pInputText id="descrip" class="flex-auto" autocomplete="off"  />
 			<small id="descri-help" *ngIf="formConsulta.controls['descripcion'].invalid && (formConsulta.controls['descripcion'].dirty || formConsulta.controls['descripcion'].touched)" style="font-size: 14px; color: red;">Campo requerido.</small>
-        </div>
-        <div class="flex flex-column gap-3 mb-3">
-            <label  class="font-semibold w-6rem">Estado:</label>
-            <div class="select is-fullwidth is-info" [ngClass]="{'alertaBoton': formConsulta.controls['id_Estado'].invalid && (formConsulta.controls['id_Estado'].dirty || formConsulta.controls['id_Estado'].touched)}">
-                <select id="select2" formControlName="id_Estado" >
-                    <option value="" selected disabled>"Seleccione."</option>
-                    <option *ngFor="let info of cat_estados, let i = index" value="{{info.id_Estado}}">{{info.descripcion}}</option>
-                </select>
-            </div>
-            <span *ngIf="formConsulta.controls['id_Estado'].invalid && (formConsulta.controls['id_Estado'].dirty || formConsulta.controls['id_Estado'].touched)" style="font-size: 14px; color: red;">Campo requerido.</span>
         </div>
       
         <div class="flex justify-content-end gap-2">
