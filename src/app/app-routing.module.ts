@@ -20,6 +20,7 @@ import { TiendaModule } from './body/tienda/tienda.module';
                     { path: 'tienda', loadChildren: () => import('./body/tienda/tienda.module').then(m => m.TiendaModule) },
                     { path: 'compras', loadChildren: () => import('./body/compras/compras.module').then(m => m.ComprasModule) },
                     { path: 'inventario', loadChildren: () => import('./body/inventario/inventario.module').then(m => m.InventarioModule) },
+                    { path: 'mispedidos', loadChildren: () => import('./body/mispedidos/mispedidos.module').then(m => m.MispedidosModule) },
 
                 ]
             },
