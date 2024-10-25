@@ -9,7 +9,7 @@ import * as moment from 'moment';
 moment.locale('us');
 import { Report } from 'notiflix/build/notiflix-report-aio';
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
-
+import { encabezado } from './class';
 
 @Component({
   selector: 'app-compras',
@@ -24,9 +24,19 @@ export class ComprasComponent {
   error: boolean = false
   datos: any
 cat_estados:any
+cat_proveedores:any
+cat_productos:any
+
   tituloModal: any
   tipo_modal: any
   displayModal: boolean = false;
+
+
+  datosDetalle:any
+  id_enca:any
+
+  products2: encabezado[] | any;
+clonedProducts: { [s: string]: encabezado; } = {};
 
   constructor(    private Router : Router,
     private ConsultaService : ConsultasService,
@@ -46,8 +56,7 @@ private formBuilder : FormBuilder
       // Navega a 'auth/inicio' reemplazando la URL actual
       this.Router.navigate(['auth', 'inicio'], { replaceUrl: true });
     }
-    this.consCatego()
-    // this.consEstados()
+    this.consCompras()
   }
 
 
@@ -67,11 +76,37 @@ private formBuilder : FormBuilder
 
 
 
-  consCatego(){
-    
+  consCompras(){
     this.ConsultaService.consCompraEnca().subscribe(info=>{
       console.log(info)
       this.datos = info
+      this.consProveedores()
+
+    })
+  }
+
+  consProveedores(){
+    this.ConsultaService.consProveedores().subscribe(info=>{
+      console.log(info)
+      this.cat_proveedores = info
+      this.consEstado()
+
+    })
+  }
+
+  consProductos(){
+    this.ConsultaService.consProductos().subscribe(info=>{
+      console.log(info)
+      this.cat_productos = info
+      
+    })
+  }
+
+  consEstado(){
+    this.ConsultaService.consCategorias().subscribe(info=>{
+      console.log(info)
+      this.cat_estados = info
+      this.consProductos()
     })
   }
 
@@ -79,10 +114,10 @@ private formBuilder : FormBuilder
   private formulario(){
     this.formConsulta = this.formBuilder.group({
       id_Orden_Enca: ['', ],
-      id_Proveedor: ['', ],
-      numero_Orden: ['', ],
+      id_Proveedor: ['', Validators.required ],
+      numero_Orden: ['', Validators.required],
       id_Estado:    ['', ],
-      observacion:  ['', ],
+      observacion:  ['', Validators.required ],
     });
   }
 
@@ -91,9 +126,9 @@ private formBuilder : FormBuilder
     this.formConsulta1 = this.formBuilder.group({
       id_Orden_deta: ['', ],
       id_Orden_Enca: ['', ],
-      id_Producto: ['', ],
-      cantidad:    ['', ],
-      precio_Unitario:  ['', ],
+      id_Producto: ['', Validators.required],
+      cantidad:    ['', Validators.required],
+      precio_Unitario:  ['', Validators.required],
       observacion:  ['', ]
     });
   }
@@ -127,6 +162,8 @@ private formBuilder : FormBuilder
         case 'VD':
           this.tituloModal = 'Detalle Compra'
           this.showModalDialog();
+          this.id_enca = valor.id_Orden_Enca
+          this.consDetalle(this.id_enca)
            break;
       default:
         break;
@@ -137,22 +174,30 @@ private formBuilder : FormBuilder
   }
 
 
+  consDetalle(id){
+    this.ConsultaService.consCompraDeta(id).subscribe(info=>{
+      console.log(info)
+      this.datosDetalle = info
+    })
+  }
+
+
 
   guardar(){
     switch (this.tipo_modal) {
       case 'A':
         if (this.formConsulta.valid) {
-          this.formConsulta.removeControl('id_Estado')
-          this.ConsultaService.insCategorias(this.formConsulta.value).subscribe(info=>{
-            // console.log(info)
+          this.formConsulta.removeControl('id_Orden_Enca')
+          this.ConsultaService.insCompraEnca(this.formConsulta.value).subscribe(info=>{
+             console.log(info)
             if (info === true) {
              this.not_success('Registro Guardado')
              this.modalclose()
-              this.consCatego()
+              this.consCompras()
            }else{
              this.modalclose()
              this.not_error('A ocurrido un error, intente nuevamente')
-             this.consCatego()
+             this.consCompras()
            }
        })
     
@@ -164,16 +209,16 @@ private formBuilder : FormBuilder
         break;
       case 'E':
         if (this.formConsulta.valid) {
-          this.ConsultaService.updateCategorias(this.formConsulta.value).subscribe(info=>{
+          this.ConsultaService.updateCompraEnca(this.formConsulta.value).subscribe(info=>{
             console.log(info)
             if (info) {
              this.not_success('Registro Actualizado')
              this.modalclose()
-             this.consCatego()
+             this.consCompras()
             }else{
              this.modalclose()
              this.not_error('A ocurrido un error, intente nuevamente')
-             this.consCatego()
+             this.consCompras()
             }
        })
     
@@ -183,10 +228,117 @@ private formBuilder : FormBuilder
           this.markAllFieldsAsTouched(this.formConsulta);
         }
         break;
+      case 'VD':
+        if (this.formConsulta1.valid) {
+          this.formConsulta1.removeControl('id_Orden_deta')
+          this.formConsulta1.controls['id_Orden_Enca'].setValue(this.id_enca)
+          this.ConsultaService.insCompraDeta(this.formConsulta1.value).subscribe(info=>{
+             console.log(info)
+            if (info === true) {
+             this.not_success('Registro Guardado')
+             this.consDetalle(this.id_enca)
+             this.formulario1()
+            }else{
+             this.not_error('A ocurrido un error, intente nuevamente')
+             this.consDetalle(this.id_enca)
+             this.formulario1()
+            }
+       })
+    
+        }else{
+          this.not_warning('Llene los campos requeridos')
+          this.error = true
+          this.markAllFieldsAsTouched(this.formConsulta1);
+        }
+        break;
     
       default:
         break;
     }
+  }
+
+
+
+
+
+
+  //Para Editar Detalle
+
+  onRowEditInitM(product: encabezado) {
+    this.clonedProducts[product.id_Orden_Enca] = {...product};
+    }
+  
+    onRowEditSaveM(product: encabezado) {
+      // console.log(product)
+    if (product.cantidad != null && product.precio_Unitario != null) {
+      var tmp = []
+      tmp.push({id_Orden_deta:product.id_Orden_deta,
+                cantidad:product.cantidad,
+                id_Producto:product.id_Producto,
+                precio_Unitario:product.precio_Unitario,
+                observacion:product.observacion})
+            console.log(tmp[0])
+            this.ConsultaService.updateCompraDeta(tmp[0]).subscribe(info=>{
+              console.log(info)
+                if (info) {
+                    this.not_success('Actualización Exitosa')
+                   this.consDetalle(this.id_enca)
+                }else{
+                    this.not_warning('No se actualizo, intente nuevamente')
+                    this.consDetalle(this.id_enca)
+                }
+            },error=>{
+                console.log(error)
+            })
+        
+    }else{
+      this.not_warning('Ingrese datos en Cantidad o Precio Unitario')
+      this.consDetalle(this.id_enca)
+    }
+  
+  
+  
+    }
+  
+    onRowEditCancelM(product: encabezado, index: number) {
+      // this.products2 = encabezado
+        this.products2[index] = this.clonedProducts[product.id_Orden_deta];
+        delete this.clonedProducts[product.id_Orden_deta];
+    }
+
+
+    //Para eliminar Detalle
+
+
+    not_seguro1(data:any){
+      Confirm.show(
+        'Importante',
+        'Esta seguro que desea eliminar el producto?',
+        'Aceptar',
+        'Cancelar',
+        () => {
+          this.eliminarDetalle(data)
+        },
+        () => {
+    
+        },
+        {
+        },
+        );
+    }
+
+  eliminarDetalle(id:any){
+    console.log(id)
+    this.ConsultaService.deleteCompraDeta(id.id_Orden_deta).subscribe(info=>{
+      console.log(info)
+      if (info) {
+       this.not_success('Registro Eliminado')
+       this.consDetalle(this.id_enca)
+      }else{
+       this.not_error('A ocurrido un error, intente nuevamente')
+       this.consDetalle(this.id_enca)
+      }
+    })
   }
 
 

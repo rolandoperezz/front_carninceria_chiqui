@@ -98,14 +98,14 @@ export class ConsultasService {
     //Servicios Proveedores
   
     insProveedores(body:any){
-      return this.http.post(`${this.urlback}CategoriaProducto/Registrar`,body)
+      return this.http.post(`${this.urlback}Proveedor/Registrar`,body)
     }
     consProveedores(){
-      return this.http.get(`${this.urlback}CategoriaProducto/ListProveedores`)
+      return this.http.get(`${this.urlback}Proveedor/ListProveedores`)
     }
   
     updateProveedores(body:any){
-      return this.http.put(`${this.urlback}CategoriaProducto/Actualizar`,body)
+      return this.http.put(`${this.urlback}Proveedor/Actualizar`,body)
     }
 
 
@@ -157,19 +157,19 @@ export class ConsultasService {
 
     //Productos
     insProductos(body:any){
-      return this.http.post(`${this.urlback}CatalogoaProducto/NuevoProducto`,body)
+      return this.http.post(`${this.urlback}CatalogoProducto/NuevoProducto`,body)
     }
     consProductos(){
-      return this.http.get(`${this.urlback}CatalogoaProducto/ListProductos`)
+      return this.http.get(`${this.urlback}CatalogoProducto/ListProductos`)
     }
   
     updateProductos(body:any){
-      return this.http.put(`${this.urlback}CatalogoaProducto/ActualizarProducto`,body)
+      return this.http.put(`${this.urlback}CatalogoProducto/ActualizarProducto`,body)
     }
   
 
     deleteProductos(body:any){
-      return this.http.delete(`${this.urlback}CatalogoaProducto/EliminarProducto?id=${body}`)
+      return this.http.delete(`${this.urlback}CatalogoProducto/EliminarProducto?id=${body}`)
     }
 
 

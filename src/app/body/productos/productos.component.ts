@@ -72,7 +72,6 @@ private primengConfig: PrimeNGConfig
       // Navega a 'auth/inicio' reemplazando la URL actual
       this.Router.navigate(['auth', 'inicio'], { replaceUrl: true });
     }
-    this.consProductos()
     this.consCate()
   }
 
@@ -102,6 +101,7 @@ private primengConfig: PrimeNGConfig
   consCate(){
     this.ConsultaService.consCategorias().subscribe(info=>{
       this.cat_categorias = info
+      this.consProductos()
     })
   }
   consEsta(){

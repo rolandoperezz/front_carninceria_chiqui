@@ -48,6 +48,11 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-sign-out',
                                 routerLink: ['/layout/tienda']
                             },
+                            { 
+                                label: 'Compras',
+                                icon: 'pi pi-sign-out',
+                                routerLink: ['/layout/compras']
+                            },
                         ]
                     }
                 ];

@@ -18,6 +18,7 @@ import { TiendaModule } from './body/tienda/tienda.module';
                     { path: 'proveedores', loadChildren: () => import('./body/proveedores/proveedores.module').then(m => m.ProveedoresModule) },
                     { path: 'productos', loadChildren: () => import('./body/productos/productos.module').then(m => m.ProductosModule) },
                     { path: 'tienda', loadChildren: () => import('./body/tienda/tienda.module').then(m => m.TiendaModule) },
+                    { path: 'compras', loadChildren: () => import('./body/compras/compras.module').then(m => m.ComprasModule) },
 
                 ]
             },

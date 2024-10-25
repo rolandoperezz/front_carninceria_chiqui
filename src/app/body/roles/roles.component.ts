@@ -53,7 +53,6 @@ private formBuilder : FormBuilder
       this.Router.navigate(['auth', 'inicio'], { replaceUrl: true });
     }
     this.consRoles()
-    this.consPagina()
   }
 
 
@@ -78,6 +77,8 @@ private formBuilder : FormBuilder
     this.ConsultaService.consRoles().subscribe(info=>{
       console.log(info)
       this.datos = info
+      this.consPagina()
+
     })
   }
 
