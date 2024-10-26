@@ -95,6 +95,7 @@ private primengConfig: PrimeNGConfig
     this.ConsultaService.consProductos().subscribe(info=>{
       console.log(info)
       this.datos = info
+      this.consEsta()
     })
   }
 
@@ -106,7 +107,7 @@ private primengConfig: PrimeNGConfig
   }
   consEsta(){
     this.ConsultaService.consEstado().subscribe(info=>{
-      this.cat_categorias = info
+      this.cat_estado = info
     })
   }
 

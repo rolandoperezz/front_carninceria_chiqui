@@ -103,7 +103,7 @@ private formBuilder : FormBuilder
   }
 
   consEstado(){
-    this.ConsultaService.consCategorias().subscribe(info=>{
+    this.ConsultaService.consEstado().subscribe(info=>{
       console.log(info)
       this.cat_estados = info
       this.consProductos()

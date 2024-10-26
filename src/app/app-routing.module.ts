@@ -21,6 +21,8 @@ import { TiendaModule } from './body/tienda/tienda.module';
                     { path: 'compras', loadChildren: () => import('./body/compras/compras.module').then(m => m.ComprasModule) },
                     { path: 'inventario', loadChildren: () => import('./body/inventario/inventario.module').then(m => m.InventarioModule) },
                     { path: 'mispedidos', loadChildren: () => import('./body/mispedidos/mispedidos.module').then(m => m.MispedidosModule) },
+                    { path: 'estado', loadChildren: () => import('./body/estado/estado.module').then(m => m.EstadoModule) },
+                    { path: 'pedidos', loadChildren: () => import('./body/pedidos-admin/pedidos-admin.module').then(m => m.PedidosAdminModule) },
 
                 ]
             },

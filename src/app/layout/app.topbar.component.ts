@@ -36,7 +36,7 @@ export class AppTopBarComponent {
      
     
       this.info = this.ConsultaService.getToken()
-        console.log(this.info)
+        // console.log(this.info)
 
     
       }

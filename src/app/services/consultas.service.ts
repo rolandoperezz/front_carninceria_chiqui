@@ -144,14 +144,14 @@ export class ConsultasService {
     //Estado
 
     insEstado(body:any){
-      return this.http.post(`${this.urlback}CategoriaProducto/NuevaCategoria`,body)
+      return this.http.post(`${this.urlback}Estado/NuevoEstado`,body)
     }
     consEstado(){
-      return this.http.get(`${this.urlback}CategoriaProducto/ListCategorias`)
+      return this.http.get(`${this.urlback}Estado/ListEstados`)
     }
   
     updateEstado(body:any){
-      return this.http.put(`${this.urlback}CategoriaProducto/ActualizarCategoria`,body)
+      return this.http.put(`${this.urlback}Estado/ActualizarRol`,body)
     }
 
 
@@ -215,5 +215,63 @@ export class ConsultasService {
     updateInventario(body:any){
       return this.http.put(`${this.urlback}InventarioProducto/ActualizarInventario`,body)
     }
+
+
+    //Tienda
+    consTienda(){
+      return this.http.get(`${this.urlback}ListaProductos/Listar`)
+    }
+
+
+    //Pedido Enca
+    insPedidoEnca(body:any){
+      return this.http.post(`${this.urlback}Pedido/InsertarPedido`,body)
+    }
+
+    updatePedidoEnca(body:any){
+      return this.http.put(`${this.urlback}Pedido/ActualizarPedido`,body)
+    }
+
+    finalizarPedido(body:any){
+      return this.http.post(`${this.urlback}Pedido/FinalizarPedido`,body)
+    }
+
+
+    //PedidoDetalle
+    insPedidoDetalle(body:any){
+      return this.http.post(`${this.urlback}PedidoDetalle/NuevoDetalle`,body)
+    }
+
+    updatePedidoDetalle(body:any){
+      return this.http.put(`${this.urlback}PedidoDetalle/ActualizarDetalle`,body)
+    }
+
+    consPedidoDetalle(body:any){
+      return this.http.get(`${this.urlback}PedidoDetalle/ListDetalle?id=${body}`)
+    }
+
+    deletePedidoDetalle(body:any){
+      return this.http.delete(`${this.urlback}PedidoDetalle/EliminarDetalle?id=${body}`)
+    }
+
+
+
+    //ConsPedidos
+
+
+    consPedidoUsuario(body:any){
+      return this.http.get(`${this.urlback}Pedido/ListPedidosUsr?id_Usuario=${body}`)
+    }
+
+    consPedidoAdmin(){
+      return this.http.get(`${this.urlback}Pedido/ListPedidosAdm`)
+    }
+
+    
+
+
+
+    
+
 
 }

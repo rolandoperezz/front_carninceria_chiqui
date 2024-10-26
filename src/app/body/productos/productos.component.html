@@ -76,7 +76,7 @@
 					<div class="select is-fullwidth is-info" [ngClass]="{'alertaBoton': formConsulta.controls['id_Estado'].invalid && (formConsulta.controls['id_Estado'].dirty || formConsulta.controls['id_Estado'].touched)}">
 						<select id="select1" formControlName="id_Estado" >
 							<option value="" selected disabled>"Seleccione."</option>
-							<option *ngFor="let info of cat_categorias, let i = index" value="{{info.id_Estado}}">{{info.descripcion}}</option>
+							<option *ngFor="let info of cat_estado, let i = index" value="{{info.id_Estado}}">{{info.descripcion}}</option>
 						</select>
 					</div>
 					<span *ngIf="formConsulta.controls['id_Estado'].invalid && (formConsulta.controls['id_Estado'].dirty || formConsulta.controls['id_Estado'].touched)" style="font-size: 14px; color: red;">Campo requerido.</span>

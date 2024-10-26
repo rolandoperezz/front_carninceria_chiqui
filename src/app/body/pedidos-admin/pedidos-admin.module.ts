@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TiendaRoutingModule } from './tienda-routing.module';
+import { PedidosAdminRoutingModule } from './pedidos-admin-routing.module';
 import { StyleClassModule } from 'primeng/styleclass';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
@@ -12,15 +12,13 @@ import { TabViewModule } from 'primeng/tabview';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TiendaComponent } from './tienda.component';
-import { DataViewModule } from 'primeng/dataview';
-import { TagModule } from 'primeng/tag';
-import { BadgeModule } from 'primeng/badge';
+import { PedidosAdminComponent } from './pedidos-admin.component';
+
 @NgModule({
-  declarations: [TiendaComponent],
+  declarations: [PedidosAdminComponent],
   imports: [
     CommonModule,
-    TiendaRoutingModule,
+    PedidosAdminRoutingModule,
     StyleClassModule,
     CardModule,
     TableModule,
@@ -30,10 +28,7 @@ import { BadgeModule } from 'primeng/badge';
     TabViewModule,
     DropdownModule,
     FormsModule,
-    ReactiveFormsModule,
-    DataViewModule,
-    TagModule,
-    BadgeModule
+    ReactiveFormsModule
   ]
 })
-export class TiendaModule { }
+export class PedidosAdminModule { }

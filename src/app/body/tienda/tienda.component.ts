@@ -1,32 +1,50 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ConsultasService } from 'src/app/services/consultas.service';
 import { Product } from './productos';
+import { Report } from 'notiflix/build/notiflix-report-aio';
+import { Loading } from 'notiflix';
+import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validator,FormBuilder,Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
+moment.locale('us');
+
+
 @Component({
   selector: 'app-tienda',
   templateUrl: './tienda.component.html',
   styleUrls: ['./tienda.component.scss']
 })
 export class TiendaComponent implements OnInit {
+  formConsulta! : FormGroup
 
-  searchTerm: string = '';
-  currentPage = 1;
-  itemsPerPage = 5;
-
-  products = []
+  products:any = []
   filtro: any;
   filtro1: any;
 
   datostmp:any
   categorias:any
   selectedCat: string | undefined;
+  error: boolean = false
 
+  datosPedido = []
+  selectedItems: any[] = []; // Array para almacenar los artículos seleccionados
+datosUsuario:any
+
+  tituloModal: any
+  tipo_modal: any
+  displayModal: boolean = false;
+  total: any;
   // filteredProducts: any[] = [...this.products]; // Inicialización correcta de productos filtrados
 
   constructor(
-    private Router: Router,
-    private ConsultaService: ConsultasService
-  ) {}
+    private Router : Router,
+    private ConsultaService : ConsultasService,
+private ActivatedRoute : ActivatedRoute,
+private formBuilder : FormBuilder
+  ) {
+    this.formulario()
+  }
 
   ngOnInit(): void {
     window.addEventListener('popstate', this.handlePopState.bind(this));
@@ -34,60 +52,11 @@ export class TiendaComponent implements OnInit {
       this.Router.navigate(['auth', 'inicio'], { replaceUrl: true });
     }
 
-     // Definir productos (28 productos)
- this.products = [
-  {
-    id: '1000',
-    code: 'f230fh0g3',
-    name: 'Bamboo Watch',
-    description: 'Product Description',
-    image: 'bamboo-watch.jpg',
-    price: 65,
-    category: 'Accessories',
-    quantity: 24,
-    inventoryStatus: 'INSTOCK',
-    rating: 5
-},
-{
-  id: '1001',
-  code: 'f230fh0g3',
-  name: 'Mixco',
-  description: 'Product Description',
-  image: 'bamboo-watch.jpg',
-  price: 65,
-  category: 'telefono',
-  quantity: 22,
-  inventoryStatus: 'OUTOFSTOCK',
-  rating: 5
-},
-{
-  id: '1004',
-  code: 'f230fh0g3',
-  name: 'Telefono',
-  description: 'Product Description',
-  image: 'bamboo-watch.jpg',
-  price: 65,
-  category: 'Accessories',
-  quantity: 0,
-  inventoryStatus: 'INSTOCK',
-  rating: 5
-},
-{
-  id: '1002',
-  code: 'f230fh0g3',
-  name: 'smart tv',
-  description: 'Product Description',
-  image: 'bamboo-watch.jpg',
-  price: 65,
-  category: 'telefono',
-  quantity: 10,
-  inventoryStatus: 'LOWSTOCK',
-  rating: 5
-},
-];
+    this.datosUsuario =  this.ConsultaService.getToken()
+    // console.log(this.datosUsuario)
 
-this.datostmp = this.products
-this.catCategorias()
+
+this.consProductos()
 
   }
 
@@ -101,33 +70,30 @@ this.catCategorias()
   }
 
 
+
+  consProductos(){
+    this.ConsultaService.consTienda().subscribe(info=>{
+      // console.log(info)
+      this.products = info
+      this.datostmp = this.products
+      this.catCategorias()
+    })
+  }
+
+
   catCategorias(){
     var categorias = []
-    categorias = [...new Set(this.products.map(item => item.category))];
+    categorias = [...new Set(this.products.map(item => item.categoria))];
     categorias.sort((a, b) => a.localeCompare(b));
     this.categorias = categorias
-    console.log(this.categorias)
+    // console.log(this.categorias)
    }
 
 
-  getSeverity (product: Product) {
-    switch (product.inventoryStatus) {
-        case 'INSTOCK':
-            return 'success';
 
-        case 'LOWSTOCK':
-            return 'warning';
-
-        case 'OUTOFSTOCK':
-            return 'danger';
-
-        default:
-            return null;
-    }
-};
 
 aplicarFiltrosN(): void {
-  
+
   if (this.filtro) {
     this.filtro = this.filtro.toLowerCase(); // Convertir a minúsculas
 
@@ -145,8 +111,8 @@ aplicarFiltrosN(): void {
     if (this.filtro1) {
       this.products = this.products.filter(item => {
         // Reemplaza 'campoEspecifico' con el nombre del campo que deseas filtrar (en este caso, 'ZONA')
-        const valorCampoEspecifico = item['category'];
-  
+        const valorCampoEspecifico = item['categoria'];
+
         if (typeof valorCampoEspecifico === 'string') {
           return valorCampoEspecifico.includes(this.filtro1);
         } else {
@@ -161,7 +127,7 @@ aplicarFiltrosN(): void {
 
   } else {
       if (this.filtro1) {
-        
+
       }else{
         this.products = [...this.products]; // Mostrar todos los datos si el filtro está vacío
       }
@@ -174,7 +140,7 @@ aplicarFiltros1(): void {
   if (this.filtro1) {
     this.products = this.datostmp.filter(item => {
       // Reemplaza 'campoEspecifico' con el nombre del campo que deseas filtrar (en este caso, 'ZONA')
-      const valorCampoEspecifico = item['category'];
+      const valorCampoEspecifico = item['categoria'];
 
       if (typeof valorCampoEspecifico === 'string') {
         return valorCampoEspecifico.includes(this.filtro1);
@@ -185,7 +151,7 @@ aplicarFiltros1(): void {
         // return this.valoresPermitidos.includes(valorCampoEspecifico);
       }
     });
-    
+
     if (this.filtro) {
       this.products = this.products.filter(item => {
         return Object.values(item).some(val => {
@@ -199,11 +165,11 @@ aplicarFiltros1(): void {
         });
       });
     }
-   
+
 
   } else {
     if (this.filtro) {
-        
+
     }else{
       this.products = [...this.datostmp]; // Mostrar todos los datos si el filtro está vacío
     }
@@ -211,39 +177,249 @@ aplicarFiltros1(): void {
 }
 
 
-  // Búsqueda de productos
-  // searchProducts(term: string): void {
-  //   this.filteredProducts = this.products.filter(product =>
-  //     product.name.toLowerCase().includes(term.toLowerCase())
-  //   );
-  //   this.currentPage = 1;
-  // }
+carrito(valor:any){
 
-  // Obtener productos paginados
-  // get paginatedProducts() {
-  //   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-  //   return this.filteredProducts.slice(startIndex, startIndex + this.itemsPerPage);
-  // }
+    // this.datosPedido.push(valor)
 
-  // Cambiar de página
-  // changePage(page: number): void {
-  //   if (page >= 1 && page <= this.totalPages) {
-  //     this.currentPage = page;
-  //   }
-  // }
+    if (!this.datosPedido.includes(valor)) {
+      this.datosPedido.push(valor);
+      // console.log(this.datosPedido)
+      this.not_success('Producto agregado a carrito')
+      // Aquí puedes agregar la lógica para añadir el artículo al carrito
+  }
 
-  // Cambiar la cantidad de productos por página
-  // changeItemsPerPage(value: string): void {
-  //   this.itemsPerPage = +value;
-  //   this.currentPage = 1;
-  // }
 
-  // Total de páginas
-  // get totalPages(): number {
-  //   return Math.ceil(this.filteredProducts.length / this.itemsPerPage);
-  // }
+    // console.log(this.datosPedido)
+}
 
-  // get totalPagesArray(): number[] {
-  //   return Array(this.totalPages).fill(0).map((x, i) => i + 1);
-  // }
+isItemSelected(item: any): boolean {
+  return this.datosPedido.includes(item);
+}
+
+private formulario(){
+  this.formConsulta = this.formBuilder.group({
+    id_Pedido : ['', ],
+    Fecha_Pedido  : ['', ],
+    id_Usuario  : ['', ],
+    id_Estado   : ['', ],
+    Fecha_Programada : ['',Validators.required],
+    // total : [''],
+
+  });
+}
+
+
+showModalDialog() {
+  this.displayModal = true;
+}
+
+public modalclose(){
+  this.displayModal = false
+  this.formulario()
+}
+
+
+limpiar(){
+  this.formulario()
+  this.datosPedido = []
+}
+
+
+public tipoModal(tipo:any,valor:any){
+  this.tipo_modal = tipo
+
+  switch (this.tipo_modal) {
+    case 'A':
+      this.tituloModal = 'Carrito'
+      this.showModalDialog();
+      // this.formulario()
+      break;
+      case 'E':
+        this.tituloModal = 'Carrito'
+      this.showModalDialog();
+      // this.formConsulta.patchValue(valor)
+      break;
+
+    default:
+      break;
+  }
+}
+
+calcularSubtotal(index: number, cantidad:any) {
+  this.datosPedido[index].cantidad = cantidad.target.value
+  this.datosPedido[index].subtotal =   this.datosPedido[index].cantidad * this.datosPedido[index].precio_Venta;
+
+  // console.log(producto)
+  this.calcularTotal();
+}
+
+calcularTotal() {
+  this.total = this.datosPedido.reduce((acc, item) => acc + item.subtotal, 0);
+}
+eliminarProducto(index: number) {
+  this.datosPedido.splice(index, 1);
+  this.calcularTotal(); // Actualiza el total después de eliminar
+}
+
+
+guardar(){
+  switch (this.tipo_modal) {
+    case 'A':
+      if (this.formConsulta.valid) {
+        this.formConsulta.removeControl('id_Pedido')
+        this.formConsulta.removeControl('Fecha_Pedido')
+        this.formConsulta.controls['id_Usuario'].setValue(this.datosUsuario.id_Usuario)
+        this.formConsulta.controls['id_Estado'].setValue(2)
+        // this.formConsulta.controls['total'].setValue(this.total)
+
+
+        // if (this.formConsulta.controls['Fecha_Programada'].value != '') {
+        //   this.formConsulta.controls['id_Usuario'].setValue(moment(this.formConsulta.controls['Fecha_Programada'].value).format('DD/MM/YYYY'))
+        // }
+
+
+        console.log(this.formConsulta.value)
+
+        this.ConsultaService.insPedidoEnca(this.formConsulta.value).subscribe(info=>{
+           console.log(info)
+          if (info ) {
+            var llamadasPromesas = [];
+
+            for (let index = 0; index < this.datosPedido.length; index++) {
+
+              const model = {
+                "id_Pedido":info,
+                "id_Producto":this.datosPedido[index].id_Producto,
+                "Cantidad_Pedido": this.datosPedido[index].cantidad,
+                "Precio_Unitario": this.datosPedido[index].precio_Venta,
+                // "subTotal":this.datosPedido[index].subtotal,
+                // "id_Usuario": this.datosUsuario.id_Usuario
+              }
+
+              console.log(model)
+
+              llamadasPromesas.push(
+                new Promise<void>((resolve, reject) => {
+                  this.ConsultaService.insPedidoDetalle(model).subscribe(info=>{
+                    resolve()
+                    console.log(info)
+                },
+                  (error) => {
+                    reject(error); // Rechaza la promesa en caso de error
+                    console.log(error)
+                  })
+                })
+              );
+            }
+            Promise.all(llamadasPromesas)
+            .then(() => {
+              // this.guardarFoto()
+              this.not_success('Pedido Registrado')
+              this.modalclose()
+              this.limpiar()
+              // setTimeout(() => {
+              //   window.location.reload();
+              // }, 2000);
+            })
+            .catch((error) => {
+              console.error('Error en insert', error);
+              this.not_warning('Error en Pedido')
+              this.limpiar()
+
+              // setTimeout(() => {
+              //   window.location.reload();
+              // }, 2000);
+            });
+
+          
+         }else{
+           this.modalclose()
+           this.not_error('A ocurrido un error, intente nuevamente')
+         }
+     })
+
+      }else{
+        this.not_warning('Llene los campos requeridos')
+        this.error = true
+        this.markAllFieldsAsTouched(this.formConsulta);
+      }
+      break;
+    // case 'E':
+    //   if (this.formConsulta.valid) {
+    //     this.ConsultaService.updateEstado(this.formConsulta.value).subscribe(info=>{
+    //       console.log(info)
+    //       if (info) {
+    //        this.not_success('Registro Actualizado')
+    //        this.modalclose()
+    //        this.consCatego()
+    //       }else{
+    //        this.modalclose()
+    //        this.not_error('A ocurrido un error, intente nuevamente')
+    //        this.consCatego()
+    //       }
+    //  })
+
+    //   }else{
+    //     this.not_warning('Llene los campos requeridos')
+    //     this.error = true
+    //     this.markAllFieldsAsTouched(this.formConsulta);
+    //   }
+    //   break;
+
+    default:
+      break;
+  }
+}
+
+private markAllFieldsAsTouched(formGroup: FormGroup) {
+  Object.values(formGroup.controls).forEach(control => {
+    control.markAsTouched();
+
+    if (control instanceof FormGroup) {
+      this.markAllFieldsAsTouched(control);
+    }
+  });
+}
+not_seguro(id:any){
+  Confirm.show(
+    'Importante',
+    'Esta seguro que desea eliminar el producto?',
+    'Aceptar',
+    'Cancelar',
+    () => {
+      this.eliminarProducto(id)
+    },
+    () => {
+
+    },
+    {
+    },
+    );
+}
+
+
+
+not_warning(text:any){
+  Report.warning(
+    '',
+    `${text}`,
+    'Listo',
+    );
+}
+
+not_error(text:any){
+  Report.failure(
+    '',
+    `${text}`,
+    'Listo',
+    );
+}
+
+not_success(text:any){
+  Report.success(
+    '',
+    `${text}`,
+    'Listo',
+    );
+}
 }

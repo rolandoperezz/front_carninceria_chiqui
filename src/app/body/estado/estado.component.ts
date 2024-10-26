@@ -65,7 +65,7 @@ private formBuilder : FormBuilder
 
   consCatego(){
     
-    this.ConsultaService.consCategorias().subscribe(info=>{
+    this.ConsultaService.consEstado().subscribe(info=>{
       console.log(info)
       this.datos = info
     })
@@ -114,7 +114,7 @@ private formBuilder : FormBuilder
       case 'A':
         if (this.formConsulta.valid) {
           this.formConsulta.removeControl('id_Estado')
-          this.ConsultaService.insCategorias(this.formConsulta.value).subscribe(info=>{
+          this.ConsultaService.insEstado(this.formConsulta.value).subscribe(info=>{
             // console.log(info)
             if (info === true) {
              this.not_success('Registro Guardado')
@@ -135,7 +135,7 @@ private formBuilder : FormBuilder
         break;
       case 'E':
         if (this.formConsulta.valid) {
-          this.ConsultaService.updateCategorias(this.formConsulta.value).subscribe(info=>{
+          this.ConsultaService.updateEstado(this.formConsulta.value).subscribe(info=>{
             console.log(info)
             if (info) {
              this.not_success('Registro Actualizado')

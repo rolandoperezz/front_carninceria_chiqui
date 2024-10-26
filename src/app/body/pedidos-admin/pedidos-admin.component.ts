@@ -10,14 +10,13 @@ moment.locale('us');
 import { Report } from 'notiflix/build/notiflix-report-aio';
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import { encabezado } from './class';
-
 @Component({
-  selector: 'app-mispedidos',
+  selector: 'app-pedidos-admin',
   standalone: false,
-  templateUrl: './mispedidos.component.html',
-  styleUrl: './mispedidos.component.scss'
+  templateUrl: './pedidos-admin.component.html',
+  styleUrl: './pedidos-admin.component.scss'
 })
-export class MispedidosComponent {
+export class PedidosAdminComponent {
   formConsulta! : FormGroup
   error: boolean = false
   datos: any
@@ -78,6 +77,13 @@ private formBuilder : FormBuilder
     this.ConsultaService.consPedidoUsuario(this.datosUsuario.id_Usuario).subscribe(info=>{
       console.log(info)
       this.datos = info
+      this.consEsta()
+    })
+  }
+
+  consEsta(){
+    this.ConsultaService.consEstado().subscribe(info=>{
+      this.cat_estados = info
     })
   }
 
@@ -261,6 +267,34 @@ onRowEditInitM(product: encabezado) {
       },
       );
   }
+
+
+
+  
+  not_seguro2(data:any){
+    Confirm.show(
+      'Importante',
+      'Esta seguro que desea dar por Entregado el pedido?',
+      'Aceptar',
+      'Cancelar',
+      () => {
+        this.finalizarPedido(data)
+      },
+      () => {
+  
+      },
+      {
+      },
+      );
+  }
+
+
+  finalizarPedido(data:any){
+    this.ConsultaService.finalizarPedido({id_Pedido:data.id_Pedido}).subscribe(info=>[
+      console.log(info)
+    ])
+  }
+
 
 eliminarDetalle(id:any){
   console.log(id)

@@ -23,6 +23,8 @@
                       <p-dropdown [(ngModel)]="filtro1" inputId="float-label"  (onChange)="aplicarFiltros1()" [options]="categorias"  [showClear]="true" placeholder="Seleccione">{{categorias}}</p-dropdown>
                       <label for="float-label">Filtro Categoria:</label>
                   </span>
+                  &nbsp;
+                  <i class="pi pi-cart-plus mr-4 p-text-secondary" pBadge style="font-size: 2rem" [value]="this.datosPedido.length" (click)="tipoModal('A','')"></i>
                 </div>
             </ng-template>
           <ng-template pTemplate="list" let-products>
@@ -30,14 +32,14 @@
                   <div class="col-12" *ngFor="let item of products; let first = first" class="col-12">
                       <div class="flex flex-column sm:flex-row sm:align-items-center p-4 gap-3" [ngClass]="{ 'border-top-1 surface-border': !first }">
                           <div class="md:w-10rem relative">
-                              <img class="block xl:block mx-auto border-round w-full" [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + item.image" [alt]="item.name" />
-                              <p-tag [value]="item.inventoryStatus" [severity]="getSeverity(item)" class="absolute" [style.left.px]="4" [style.top.px]="4" />
+                              <img class="block xl:block mx-auto border-round w-full" [src]="item.foto" [alt]="item.producto" />
+                              <!-- <p-tag [value]="item.cantidad" [severity]="getSeverity(item)" class="absolute" [style.left.px]="4" [style.top.px]="4" /> -->
                           </div>
                           <div class="flex flex-column md:flex-row justify-content-between md:align-items-center flex-1 gap-4">
                               <div class="flex flex-row md:flex-column justify-content-between align-items-start gap-2">
                                   <div>
-                                      <span class="font-medium text-secondary text-sm">{{ item.category }}</span>
-                                      <div class="text-lg font-medium text-900 mt-2">{{ item.name }}</div>
+                                      <span class="font-medium text-secondary text-sm">{{ item.categoria }}</span>
+                                      <div class="text-lg font-medium text-900 mt-2">{{ item.producto }}</div>
                                   </div>
                                   <!-- <div class="surface-100 p-1" style="border-radius: 30px">
                                       <div class="surface-0 flex align-items-center gap-2 justify-content-center py-1 px-2" style="border-radius: 30px; box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 2px 0px rgba(0, 0, 0, 0.06)">
@@ -47,10 +49,10 @@
                                   </div> -->
                               </div>
                               <div class="flex flex-column md:align-items-end gap-5">
-                                  <span class="text-xl font-semibold text-900">{{ '$' + item.price }}</span>
+                                  <span class="text-xl font-semibold text-900">{{ 'Q' + item.precio_Venta }}</span>
                                   <div class="flex flex-row-reverse md:flex-row gap-2">
                                       <!-- <p-button icon="pi pi-heart" [outlined]="true" /> -->
-                                      <p-button icon="pi pi-shopping-cart" class="flex-auto md:flex-initial white-space-nowrap" label="Buy Now" [disabled]="item.inventoryStatus === 'OUTOFSTOCK'" />
+                                      <p-button icon="pi pi-shopping-cart" class="flex-auto md:flex-initial white-space-nowrap" label="Comprar" (click)="carrito(item)" [disabled]="isItemSelected(item)" />
                                   </div>
                               </div>
                           </div>
@@ -60,50 +62,78 @@
           </ng-template>
       </p-dataView>
     </p-card>
-    <!-- <div class="search-container" style="display: flex; justify-content: flex-start; margin-bottom: 20px;">
-      <input
-        type="text"
-        class="search-bar"
-        placeholder="Buscar productos..."
-        [(ngModel)]="searchTerm"
-        (input)="searchProducts(searchTerm)"
-        style="width: 50%;"
-      />
-    </div> -->
-    
-    <!-- Productos mostrados en grid -->
-    <!-- <div class="product-grid">
-      <div *ngFor="let product of paginatedProducts" class="product-card">
-        <img [src]="product.image" alt="{{product.name}}" class="product-image">
-        <h3>{{product.name}}</h3>
-        <p>Q{{product.price}}</p>
-        <p>{{product.weight}}</p>
-        <button class="add-button">+ Agregar</button>
-      </div>
-    </div> -->
-    
-    <!-- Paginación y selector de productos por página -->
-    <!-- <div class="pagination-container">
-      <div class="pagination">
-        <button (click)="changePage(1)" [disabled]="currentPage === 1">« Primera pág</button>
-        <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">‹</button>
-        <button *ngFor="let page of totalPagesArray" 
-                (click)="changePage(page)" 
-                [ngClass]="{'active-page': page === currentPage}">
-          {{ page }}
-        </button>
-        <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">›</button>
-        <button (click)="changePage(totalPages)" [disabled]="currentPage === totalPages">Última pág »</button>
-      </div> -->
-    
-      <!-- Selector de productos por página -->
-      <!-- <div class="items-per-page">
-        <label for="itemsPerPage" style="color:white; margin-right: 10px;">Productos por página</label>
-        <select id="itemsPerPage" [(ngModel)]="itemsPerPage" (change)="changeItemsPerPage($event.target.value)">
-          <option *ngFor="let option of [5, 10, 15, 20]" [value]="option">{{ option }}</option>
-        </select>
+  
+  
+
+  <p-dialog [header]="tituloModal" 
+	[modal]="true" 
+	[(visible)]="displayModal" 
+	[style]="{ width: '35rem' }" >
+
+
+  <form *ngIf="datosPedido.length > 0" [formGroup]="formConsulta" (submit)="guardar()">
+
+    <div class="flex flex-column gap-3">
+      <div>
+        <label for="descrip" class="font-semibold w-6rem">Fecha para recoger pedido:</label>
+        <input formControlName="Fecha_Programada" [ngClass]="{'alertaBoton': formConsulta.controls['Fecha_Programada'].invalid && (formConsulta.controls['Fecha_Programada'].dirty || formConsulta.controls['Fecha_Programada'].touched)}" type="date" id="descrip" class="input"  />
+  <small id="descri-help" *ngIf="formConsulta.controls['Fecha_Programada'].invalid && (formConsulta.controls['Fecha_Programada'].dirty || formConsulta.controls['Fecha_Programada'].touched)" style="font-size: 14px; color: red;">Campo requerido.</small>
       </div>
     </div>
-    
+    <br>
+    <table  class="table is-bordered">
+      <thead>
+        <tr>
+          <th class="td1">Nombre del Producto</th>
+          <th class="td1">Cantidad (lbs)</th>
+          <th class="td1">Subtotal</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of datosPedido; let i = index">
+          <td class="td1">
+            <span class="contenido" style="text-transform:uppercase">{{ item.producto }}</span>
+          </td>
+          <td class="td1">
+            <input 
+              type="number" 
+              class="input" 
+              min="1" 
+              placeholder="Cantidad"
+              (input)="calcularSubtotal(i,$event)" 
+            />
+          </td>
+          <td class="td1">
+            <span class="contenido">Q.{{item.subtotal}}</span>
+          </td>
+          <td>
+            <p-button icon="pi pi-times" (click)="not_seguro(i)" pAutoFocus [autofocus]="true"  severity="danger"></p-button>
+          </td>
+        </tr>
+        <!-- Fila del total general -->
+        <tr>
+          <td colspan="2" class="td1 text-right font-bold">Total:</td>
+          <td class="td1">
+            <span class="contenido">Q.{{total}}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="flex justify-content-end gap-2">
+      <p-button label="Cancelar" icon="pi pi-times" severity="danger" (click)="modalclose()"  />
+      <p-button label="Confirmar" icon="pi pi-send" type="submit" severity="success"/>
   </div>
-</div> -->
+</form>
+
+
+  <div align="center">
+    <label  *ngIf="datosPedido.length === 0" class="font-semibold w-8rem">Sin Productos Agregados</label>
+  </div>
+  
+  
+    
+
+
+</p-dialog>

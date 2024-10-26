@@ -14,7 +14,7 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit() {
       var tmp =  this.consulta.getToken()
-        console.log(tmp)
+        // console.log(tmp)
         var tmp1 = []
         this.consulta.consPaginasRol(tmp.id_Rol).subscribe(info => {
                 // Asegúrate de concatenar los elementos en tmp1 en lugar de hacer push de un array completo
@@ -40,23 +40,39 @@ export class AppMenuComponent implements OnInit {
                             },
                             { 
                                 label: 'Productos',
-                                icon: 'pi pi-sign-out',
+                                icon: 'pi pi-book',
                                 routerLink: ['/layout/productos']
                             },
                             { 
                                 label: 'Tienda',
-                                icon: 'pi pi-sign-out',
+                                icon: 'pi pi-cart-plus',
                                 routerLink: ['/layout/tienda']
                             },
                             { 
                                 label: 'Compras',
-                                icon: 'pi pi-sign-out',
+                                icon: 'pi pi-check',
                                 routerLink: ['/layout/compras']
                             },
                             { 
                                 label: 'Inventario',
-                                icon: 'pi pi-sign-out',
+                                icon: 'pi pi-folder',
                                 routerLink: ['/layout/inventario']
+                            },
+
+                            { 
+                                label: 'Estado',
+                                icon: 'pi pi-exclamation-circle',
+                                routerLink: ['/layout/estado']
+                            },
+                            { 
+                                label: 'Mis Pedidos',
+                                icon: 'pi pi-inbox',
+                                routerLink: ['/layout/mispedidos']
+                            },
+                            { 
+                                label: 'Pedidos',
+                                icon: 'pi pi-inbox',
+                                routerLink: ['/layout/pedidos']
                             },
                         ]
                     }
