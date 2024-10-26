@@ -37,43 +37,7 @@ export class AppMenuComponent implements OnInit {
                                 label: 'Cerrar Sesión',
                                 icon: 'pi pi-sign-out',
                                 routerLink: ['auth', 'inicio']
-                            },
-                            { 
-                                label: 'Productos',
-                                icon: 'pi pi-book',
-                                routerLink: ['/layout/productos']
-                            },
-                            { 
-                                label: 'Tienda',
-                                icon: 'pi pi-cart-plus',
-                                routerLink: ['/layout/tienda']
-                            },
-                            { 
-                                label: 'Compras',
-                                icon: 'pi pi-check',
-                                routerLink: ['/layout/compras']
-                            },
-                            { 
-                                label: 'Inventario',
-                                icon: 'pi pi-folder',
-                                routerLink: ['/layout/inventario']
-                            },
-
-                            { 
-                                label: 'Estado',
-                                icon: 'pi pi-exclamation-circle',
-                                routerLink: ['/layout/estado']
-                            },
-                            { 
-                                label: 'Mis Pedidos',
-                                icon: 'pi pi-inbox',
-                                routerLink: ['/layout/mispedidos']
-                            },
-                            { 
-                                label: 'Pedidos',
-                                icon: 'pi pi-inbox',
-                                routerLink: ['/layout/pedidos']
-                            },
+                            }
                         ]
                     }
                 ];
