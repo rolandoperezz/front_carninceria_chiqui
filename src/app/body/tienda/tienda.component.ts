@@ -269,7 +269,7 @@ guardar(){
         this.formConsulta.removeControl('id_Pedido')
         this.formConsulta.removeControl('Fecha_Pedido')
         this.formConsulta.controls['id_Usuario'].setValue(this.datosUsuario.id_Usuario)
-        this.formConsulta.controls['id_Estado'].setValue(2)
+        this.formConsulta.controls['id_Estado'].setValue(4)
         // this.formConsulta.controls['total'].setValue(this.total)
 
 

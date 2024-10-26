@@ -74,7 +74,7 @@ private formBuilder : FormBuilder
 
   consCatego(){
     
-    this.ConsultaService.consPedidoUsuario(this.datosUsuario.id_Usuario).subscribe(info=>{
+    this.ConsultaService.consPedidoAdmin().subscribe(info=>{
       console.log(info)
       this.datos = info
       this.consEsta()
@@ -290,9 +290,14 @@ onRowEditInitM(product: encabezado) {
 
 
   finalizarPedido(data:any){
-    this.ConsultaService.finalizarPedido({id_Pedido:data.id_Pedido}).subscribe(info=>[
+    this.ConsultaService.finalizarPedido({id_Pedido:data.id_Pedido}).subscribe(info=>{
       console.log(info)
-    ])
+      if (info === true) {
+          this.not_success('Se finalizo el pedido con exito')
+      }else{
+          this.not_success('No se puede finalizar fedido')
+      }
+  })
   }
 
 

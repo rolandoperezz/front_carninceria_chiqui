@@ -21,6 +21,8 @@
 			<ng-template  pTemplate="header">
 				<tr>
 				  <th [style]="{'font-size': '13px', 'text-align': 'center'}">No.</th>
+				  <th [style]="{'font-size': '13px', 'text-align': 'center'}">Usuario</th>
+
                   <th [style]="{'font-size': '13px', 'text-align': 'center'}">Fecha Solicitado</th>
 					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Fecha Entrega</th>
 					<th [style]="{'font-size': '13px', 'text-align': 'center'}">Total a Pagar</th>
@@ -32,6 +34,9 @@
 			<ng-template  pTemplate="body" let-product let-rowIndex="rowIndex">
 				<tr>
 				  <td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{rowIndex+1}}</td>
+				  
+				  <td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{product.usuario}}</td>
+
 					<td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{product.fecha_Pedido | date:'dd/MM/yyyy'}}</td>
                     <td  [style]="{'font-size': '13px', 'text-align': 'center'}">{{product.fecha_Programada | date:'dd/MM/yyyy'}}</td>
 					<td  [style]="{'font-size': '13px', 'text-align': 'center'}">Q.{{product.total_Pedido}}</td>
