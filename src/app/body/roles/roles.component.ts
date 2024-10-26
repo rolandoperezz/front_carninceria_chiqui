@@ -130,12 +130,12 @@ private formBuilder : FormBuilder
     this.tipo_modal = tipo
     switch (this.tipo_modal) {
       case 'A':
-        this.tituloModal = 'Agregar Proveedor'
+        this.tituloModal = 'Agregar Rol'
         this.showModalDialog();
         this.formulario()
         break;
         case 'E':
-          this.tituloModal = 'Editar Proveedor'
+          this.tituloModal = 'Editar Rol'
         this.showModalDialog();
         this.formConsulta.patchValue(valor)
         break;
