@@ -290,14 +290,22 @@ onRowEditInitM(product: encabezado) {
 
 
   finalizarPedido(data:any){
-    this.ConsultaService.finalizarPedido({id_Pedido:data.id_Pedido}).subscribe(info=>{
-      console.log(info)
-      if (info === true) {
-          this.not_success('Se finalizo el pedido con exito')
-      }else{
-          this.not_success('No se puede finalizar fedido')
-      }
-  })
+    if (data.id_Estado === 5) {
+      this.not_warning('El pedido ya fue entregado')
+    }else{
+      this.ConsultaService.finalizarPedido({id_Pedido:data.id_Pedido}).subscribe(info=>{
+        console.log(info)
+        if (info === true) {
+            this.not_success('Se finalizo el pedido con exito')
+            this.consCatego()
+        }else{
+            this.not_success('No se puede finalizar pedido')
+            this.consCatego()
+  
+        }
+    })
+    }
+  
   }
 
 

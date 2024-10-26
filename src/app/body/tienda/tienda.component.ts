@@ -73,7 +73,7 @@ this.consProductos()
 
   consProductos(){
     this.ConsultaService.consTienda().subscribe(info=>{
-      // console.log(info)
+       console.log(info)
       this.products = info
       this.datostmp = this.products
       this.catCategorias()
